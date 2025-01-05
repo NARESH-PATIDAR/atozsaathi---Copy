@@ -1,0 +1,31 @@
+<!-- filepath: /C:/Users/patid/Desktop/atozsaathi - Copy/atozsaathi/educational/templates/educational/base.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Base Page{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'educational/css/base.css' %}">
+
+    {% block extra_styles %}{% endblock %}
+</head>
+<body>
+    <div class="wrapper">
+        <!-- Navbar -->
+        {% block navbar %}
+            {% include "educational/navbarWithSearch.html" %}
+        {% endblock %}
+
+        <!-- Main Content -->
+        <main class="main-content">
+            {% block content %}{% endblock %}
+        </main>
+
+        <!-- Footer -->
+        {% include "educational/footer.html" %}
+
+        {% block extra_scripts %}{% endblock extra_scripts %}
+    </div>
+</body>
+</html>

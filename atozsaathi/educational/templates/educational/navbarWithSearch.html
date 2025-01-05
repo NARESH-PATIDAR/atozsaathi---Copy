@@ -1,0 +1,41 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'educational/css/navbar.css' %}">
+
+<nav class="navbar">
+    <!-- Logo Section -->
+    <div class="logo-container">
+        <!-- Anchor tag combining logo image and logo text (Study Saathi) -->
+        <a href="{% url 'index' %}" class="logo-link">
+            <img src="{% static 'educational/images/logo.jpg' %}" alt="Logo" class="logo-image">
+            <span class="logo">Study Saathi</span> <!-- Text for the website -->
+        </a>
+    </div>
+
+    <!-- Right Section (Search Bar + Navigation Links) -->
+    <div class="right-section">
+        <!-- Search Bar -->
+        <div class="group search-bar-container">
+            <input class="input" type="search" placeholder="Search">
+        </div>
+
+        <!-- Navigation Links -->
+        <div class="nav-links">
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'about' %}">About</a>
+            <a href="{% url 'contact' %}">Contact</a>
+        </div>
+    </div>
+
+    <!-- Right Section (Search Icon + Menu Toggle Button) -->
+    <div class="right-icons">
+        <!-- Search Icon (Only visible in mobile view) -->
+        <div class="search-icon" onclick="toggleSearch()">
+            <img src="{% static 'educational/images/search-icon.svg' %}" alt="Search Icon" class="search-icon-img">
+        </div>
+
+        <!-- Menu Toggle Button (Only visible in mobile view) -->
+        <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+    </div>
+</nav>
+
+<script src="{% static 'educational/js/navbar.js' %}"></script>

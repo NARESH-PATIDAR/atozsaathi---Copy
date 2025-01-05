@@ -1,0 +1,62 @@
+{% extends "educational/base.html" %}
+{% load static %}
+
+{% block title %}AtoZeducation - Home{% endblock %}
+
+{% block navbar %}
+        {% include "educational/navbar.html" %}
+{% endblock %}
+
+{% block extra_styles %}
+<link rel="stylesheet" href="{% static 'educational/css/home.css' %}">
+{% endblock %}
+
+{% block content %}
+    <!-- Main Content -->
+    <div class="main-content">
+
+        <div class="headingAndSearch">
+            <h1>Hello, What Do You Want To Learn?</h1>
+            <div class="search-bar-home">
+                 <input type="text" id="search-input-home" placeholder="">
+                <img src="{% static 'educational/images/search-icon.svg' %}" alt="Search Icon" class="search-icon-home">
+            </div>
+
+            <div class="buttonsSearch">
+                <button>Master DS & ML</button>
+                <button>Go Premium</button>
+                <button>Full Stack Live Classes</button>
+            </div>
+        </div>                     
+        
+
+
+        
+        {% for heading in headings %}
+        <div class="heading-section">
+            <h2 class="section-heading">{{ heading.title }}</h2>
+            {% if heading.underline %}
+            <div class="section-underline"></div>
+            {% endif %}
+        </div>
+
+        <!-- Cards Section -->
+        <div class="card-container">
+            {% for card in heading.cards.all %}
+            <div class="card" style="background-color: {{ card.card_color }};">
+                <img src="{{ card.image.url }}" alt="{{ card.name }} Icon">
+                <div class="card-name">{{ card.name }}</div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+{% block extra_scripts %}
+
+
+<script src="{% static 'educational/js/home.js' %}"></script>
+
+
+{% endblock %}

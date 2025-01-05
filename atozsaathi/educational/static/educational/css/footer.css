@@ -1,0 +1,28 @@
+/* Footer Style */
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    width: 100%; /* Ensure the footer covers full width */
+    position: relative; /* Keep it in normal document flow */
+    bottom: 0; /* Ensures it's at the bottom of the page */
+    margin-top: auto; /* Ensures footer stays at the bottom if content is less */
+}
+
+
+@media (max-width: 768px) {
+    footer {
+        position: static;
+        width: 100%;
+    }
+}
+
+
+/* Footer for Mobile */
+/* @media (max-width: 768px) {
+    footer {
+        position: relative;
+        bottom: 0;
+    }
+} */

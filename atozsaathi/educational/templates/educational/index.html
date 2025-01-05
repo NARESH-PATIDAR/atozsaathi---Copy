@@ -1,0 +1,39 @@
+{% extends "educational/base.html" %}
+
+{% block title %}StudySaathi{% endblock %}
+
+{% block navbar %}
+        {% include "educational/navbar.html" %}
+{% endblock %}
+
+
+
+ {% block content %}
+
+    {% load static %}
+    <!-- Hero Section -->
+    <!-- Sliding Background -->
+    <div class="background">
+        <img src="{% static 'educational/images/image1.jpg' %}" alt="Background 1">
+        <img src="{% static 'educational/images/image2.jpg' %}" alt="Background 2">
+        <img src="{% static 'educational/images/image3.jpg' %}" alt="Background 3">
+        <img src="{% static 'educational/images/image4.jpg' %}" alt="Background 4">
+        <img src="{% static 'educational/images/image5.jpg' %}" alt="Background 5">
+    </div>
+
+    <!-- Home Section -->
+    <div id="home" class="section">
+        <div>
+            <p class="quote">"Education is the most powerful weapon which you can use to change the world."</p>
+            <a href=" {% url "home" %}" class="home-button">Start Learning</a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_styles %}
+    <link rel="stylesheet" href="{% static 'educational/css/index.css' %}">
+{% endblock %}
+
+{% block extra_scripts %}
+    <script src="{% static 'educational/js/index.js' %}"></script>
+{% endblock %}
