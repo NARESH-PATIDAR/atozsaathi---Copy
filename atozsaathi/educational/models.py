@@ -50,12 +50,21 @@ class Material(models.Model):
     def __str__(self):
         return self.title
 
+ 
+
 class Chapter(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=100)
+    subject = models.ForeignKey(Subject, related_name='chapters', on_delete=models.CASCADE)
+    content_categories = models.ManyToManyField('ContentCategory', related_name='chapters')
 
     def __str__(self):
         return self.name
 
+class ContentCategory(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
 class ClassSubjectChapter(models.Model):
     class_name = models.ForeignKey(ClassName, related_name="class_subject_chapters", on_delete=models.CASCADE)
     subject = models.ForeignKey(Subject, related_name="class_subject_chapters", on_delete=models.CASCADE)

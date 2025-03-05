@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404, render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from .models import *
 
 # Create your views here.
@@ -31,9 +31,32 @@ def subclass(request, class_id):
     # Add logic to fetch sub-classes if needed
     return render(request, 'educational/subclass.html', {'class_obj': class_obj})
 
- 
 
 def subject_detail(request, class_id, subject_id):
     subject = get_object_or_404(Subject, id=subject_id)
-    class_subject_chapters = ClassSubjectChapter.objects.filter(class_name_id=class_id, subject_id=subject_id)
-    return render(request, 'educational/subject_detail.html', {'subject': subject, 'class_subject_chapters': class_subject_chapters})
+    class_obj = get_object_or_404(ClassName, id=class_id)
+    class_subject_chapters = ClassSubjectChapter.objects.filter(class_name=class_obj, subject=subject)
+    context = {
+        'subject': subject,
+        'class_subject_chapters': class_subject_chapters,
+    }
+    return render(request, 'educational/subject_detail.html', context)
+
+
+def get_chapter_categories(request, chapter_id):
+    try:
+        chapter = Chapter.objects.get(id=chapter_id)
+        categories = chapter.content_categories.all()
+        categories_data = [{'name': category.name} for category in categories]
+        return JsonResponse({'categories': categories_data})
+    except Chapter.DoesNotExist:
+        return JsonResponse({'error': 'Chapter not found'}, status=404)
+
+def get_category_content(request, chapter_id, category):
+    try:
+        chapter = Chapter.objects.get(id=chapter_id)
+        content_category = chapter.content_categories.get(name=category)
+        content = content_category.content  # Assuming you have a content field in ContentCategory model
+        return JsonResponse({'content': content})
+    except (Chapter.DoesNotExist, ContentCategory.DoesNotExist):
+        return JsonResponse({'error': 'Content not found'}, status=404)

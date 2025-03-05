@@ -3,7 +3,7 @@
 {% block title %}{{ subject.name }}{% endblock %}
 
 {% block extra_styles %}
-    <link rel="stylesheet" href="{% static 'educational/css/subject_detail.css' %}">
+    <link rel="stylesheet" href="{% static 'educational/css/subjectDetail.css' %}">
 {% endblock %}
 
 {% block navbar %}
@@ -11,22 +11,33 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-3">
-                <h2>Chapters</h2>
-                <ul>
-                    {% for class_subject_chapter in class_subject_chapters %}
-                    <li>{{ class_subject_chapter.chapter.name }}</li>
-                    {% endfor %}
-                </ul>
+    <div class="flex-container">
+        <div class="card-container">
+            {% for class_subject_chapter in class_subject_chapters %}
+            <div class="card chapter-item" data-chapter-id="{{ class_subject_chapter.id }}">
+                <div class="list-group-item">
+                    <ul>
+                        <li onclick="loadChapter('{{ class_subject_chapter.chapter.id }}')"> {{ class_subject_chapter.chapter.name }}</li>
+                    </ul>
+                </div>
             </div>
-            <div class="col-sm-9">
-                <!-- Content for the selected chapter can go here -->
+            {% endfor %}
+        </div>
+        
+        <div class="content-container">
+            <div class="nav-bar" id="content-categories">
+                <p>Select a chapter to view its categories.</p>
+            </div>
+            <div id="content-display">
+                <p>Select a category to view content.</p>
             </div>
         </div>
     </div>
 {% endblock %}
+
 {% block extra_scripts %}
-    <script src="{% static 'educational/js/subject_detail.js' %}"></script>
+    <script src="{% static 'educational/js/subjectDetail.js' %}"></script>
 {% endblock %}
+
+
+
