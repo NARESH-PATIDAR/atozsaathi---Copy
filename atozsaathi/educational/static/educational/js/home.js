@@ -8,7 +8,7 @@ function toggleMenu() {
     document.addEventListener('DOMContentLoaded', () => {
 
         const searchInputElement = document.getElementById('search-input-home');
-        const placeholderText = ["How to cook pasta?", "Learn Python", "Physics basics", "Explore history"];
+        const placeholderText = ["RBSE", "CBSE", "Compititive Exams", "Explore history"];
 
         let currentIndex = 0;
         let currentCharIndex = 0;

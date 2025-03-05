@@ -1,0 +1,32 @@
+{% extends "educational/base.html" %}
+{% load static %}
+{% block title %}{{ subject.name }}{% endblock %}
+
+{% block extra_styles %}
+    <link rel="stylesheet" href="{% static 'educational/css/subject_detail.css' %}">
+{% endblock %}
+
+{% block navbar %}
+    {% include "educational/navbar.html" %}
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-3">
+                <h2>Chapters</h2>
+                <ul>
+                    {% for class_subject_chapter in class_subject_chapters %}
+                    <li>{{ class_subject_chapter.chapter.name }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="col-sm-9">
+                <!-- Content for the selected chapter can go here -->
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block extra_scripts %}
+    <script src="{% static 'educational/js/subject_detail.js' %}"></script>
+{% endblock %}

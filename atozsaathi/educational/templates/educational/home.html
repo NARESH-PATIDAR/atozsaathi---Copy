@@ -1,10 +1,10 @@
 {% extends "educational/base.html" %}
 {% load static %}
 
-{% block title %}AtoZeducation - Home{% endblock %}
+{% block title %}StudySaathi{% endblock %}
 
 {% block navbar %}
-        {% include "educational/navbar.html" %}
+    {% include "educational/navbar.html" %}
 {% endblock %}
 
 {% block extra_styles %}
@@ -13,25 +13,27 @@
 
 {% block content %}
     <!-- Main Content -->
+    <style>
+        a{  
+            text-decoration: none;
+        }
+    </style>
     <div class="main-content">
 
         <div class="headingAndSearch">
             <h1>Hello, What Do You Want To Learn?</h1>
             <div class="search-bar-home">
-                 <input type="text" id="search-input-home" placeholder="">
+                <input type="text" id="search-input-home" placeholder="">
                 <img src="{% static 'educational/images/search-icon.svg' %}" alt="Search Icon" class="search-icon-home">
             </div>
 
             <div class="buttonsSearch">
-                <button>Master DS & ML</button>
-                <button>Go Premium</button>
-                <button>Full Stack Live Classes</button>
+                <button>Science</button>
+                <button>Arts</button>
+                <button>Commerce</button>
             </div>
         </div>                     
-        
 
-
-        
         {% for heading in headings %}
         <div class="heading-section">
             <h2 class="section-heading">{{ heading.title }}</h2>
@@ -42,11 +44,13 @@
 
         <!-- Cards Section -->
         <div class="card-container">
-            {% for card in heading.cards.all %}
-            <div class="card" style="background-color: {{ card.card_color }};">
-                <img src="{{ card.image.url }}" alt="{{ card.name }} Icon">
-                <div class="card-name">{{ card.name }}</div>
-            </div>
+            {% for class_heading in heading.class_headings.all %}
+            <a href="{% url 'subjects' class_id=class_heading.class_name.id heading_id=heading.id %}"> <!-- Updated URL -->
+                <div class="card" style="background-color: {{ class_heading.class_name.card_color }};">
+                    <img src="{{ class_heading.class_name.image.url }}" alt="{{ class_heading.class_name.name }} Icon">
+                    <div class="card-name">{{ class_heading.class_name.name }}</div>
+                </div>
+            </a>
             {% endfor %}
         </div>
         {% endfor %}
@@ -54,9 +58,5 @@
 {% endblock %}
 
 {% block extra_scripts %}
-
-
 <script src="{% static 'educational/js/home.js' %}"></script>
-
-
 {% endblock %}
