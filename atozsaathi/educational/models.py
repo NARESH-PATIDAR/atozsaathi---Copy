@@ -75,3 +75,40 @@ class ClassSubjectChapter(models.Model):
 
     def __str__(self):
         return f"{self.class_name.name} - {self.subject.name} - {self.chapter.name}"
+    
+class MCQ(models.Model):
+    chapter = models.ForeignKey(Chapter, related_name='mcqs', on_delete=models.CASCADE)
+    question = models.TextField()
+    option1 = models.CharField(max_length=255)
+    option2 = models.CharField(max_length=255)
+    option3 = models.CharField(max_length=255)
+    option4 = models.CharField(max_length=255)
+    correct_option = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.question
+
+class ShortAnswer(models.Model):
+    chapter = models.ForeignKey(Chapter, related_name='short_answers', on_delete=models.CASCADE)
+    question = models.TextField()
+    answer = models.TextField()
+
+    def __str__(self):
+        return self.question
+
+class DetailedAnswer(models.Model):
+    chapter = models.ForeignKey(Chapter, related_name='detailed_answers', on_delete=models.CASCADE)
+    question = models.TextField()
+    answer = models.TextField()
+
+    def __str__(self):
+        return self.question
+
+class ContentLink(models.Model):
+    content_category = models.ForeignKey(ContentCategory, related_name='content_links', on_delete=models.CASCADE)
+    chapter = models.ForeignKey(Chapter, related_name='content_links', on_delete=models.CASCADE)
+    content_type = models.CharField(max_length=50)
+    content_id = models.PositiveIntegerField()
+
+    def __str__(self):
+        return f"{self.content_category.name} - {self.chapter.name} - {self.content_type}"

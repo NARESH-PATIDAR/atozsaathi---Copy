@@ -11,4 +11,8 @@ admin.site.register(Material)
 admin.site.register(Chapter)
 admin.site.register(ClassSubjectChapter)
 admin.site.register(ContentCategory)
+admin.site.register(MCQ)
+admin.site.register(ShortAnswer)
+admin.site.register(DetailedAnswer)
+admin.site.register(ContentLink)
 

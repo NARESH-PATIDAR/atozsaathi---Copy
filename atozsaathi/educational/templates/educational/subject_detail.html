@@ -26,7 +26,9 @@
         
         <div class="content-container">
             <div class="nav-bar" id="content-categories">
-                <p>Select a chapter to view its categories.</p>
+                {% for category in chapter.content_categories.all %}
+                    <button onclick="loadCategory('{{ chapter.id }}', '{{ category.name }}')">{{ category.name }}</button>
+                {% endfor %}
             </div>
             <div id="content-display">
                 <p>Select a category to view content.</p>

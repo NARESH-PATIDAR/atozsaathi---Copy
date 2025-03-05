@@ -18,7 +18,7 @@ urlpatterns = [
       path('class/<int:class_id>/subject/<int:subject_id>/', views.subject_detail, name='subject_detail'), 
 
       path('api/chapters/<int:chapter_id>/categories/', views.get_chapter_categories, name='get_chapter_categories'),
-      path('api/chapters/<int:chapter_id>/content/<str:category>/', views.get_category_content, name='get_category_content'),
+      path('api/chapters/<int:chapter_id>/content/<str:category_name>/', views.get_category_content, name='get_category_content'),
 
-    
+ 
 ]

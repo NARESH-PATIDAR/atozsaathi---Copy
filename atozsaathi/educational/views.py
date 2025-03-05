@@ -51,12 +51,43 @@ def get_chapter_categories(request, chapter_id):
         return JsonResponse({'categories': categories_data})
     except Chapter.DoesNotExist:
         return JsonResponse({'error': 'Chapter not found'}, status=404)
+ 
 
-def get_category_content(request, chapter_id, category):
-    try:
-        chapter = Chapter.objects.get(id=chapter_id)
-        content_category = chapter.content_categories.get(name=category)
-        content = content_category.content  # Assuming you have a content field in ContentCategory model
-        return JsonResponse({'content': content})
-    except (Chapter.DoesNotExist, ContentCategory.DoesNotExist):
-        return JsonResponse({'error': 'Content not found'}, status=404)
+def get_category_content(request, chapter_id, category_name):
+    chapter = get_object_or_404(Chapter, id=chapter_id)
+    content_category = get_object_or_404(ContentCategory, name=category_name)
+    
+    content_links = ContentLink.objects.filter(chapter=chapter, content_category=content_category)
+    content_data = []
+
+    for link in content_links:
+        if link.content_type == 'mcq':
+            content = MCQ.objects.get(id=link.content_id)
+            content_data.append({
+                'type': 'mcq',
+                'question': content.question,
+                'option1': content.option1,
+                'option2': content.option2,
+                'option3': content.option3,
+                'option4': content.option4,
+                'correct_option': content.correct_option
+            })
+        elif link.content_type == 'short_answer':
+            content = ShortAnswer.objects.get(id=link.content_id)
+            content_data.append({
+                'type': 'short_answer',
+                'question': content.question,
+                'answer': content.answer
+            })
+        elif link.content_type == 'detailed_answer':
+            content = DetailedAnswer.objects.get(id=link.content_id)
+            content_data.append({
+                'type': 'detailed_answer',
+                'question': content.question,
+                'detailed_answer': content.answer
+            })
+        else:
+            continue
+
+    return JsonResponse({'content': content_data})
+    

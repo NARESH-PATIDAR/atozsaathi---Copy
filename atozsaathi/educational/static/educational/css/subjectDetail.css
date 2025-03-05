@@ -103,3 +103,55 @@ body {
     border-radius: 5px;
     box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
 }
+
+/* Styles for MCQ questions */
+.mcq-question {
+    margin-bottom: 20px;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.mcq-question p {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.mcq-options {
+    list-style: none;
+    padding: 0;
+}
+
+.mcq-options li {
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s;
+    display: flex;
+    align-items: center;
+}
+
+.mcq-options li::before {
+    content: attr(data-label);
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.mcq-options li:hover {
+    background-color: #e9ecef;
+    border-color: #adb5bd;
+}
+
+.mcq-correct {
+    color: green;
+    font-weight: bold;
+}
+
+.mcq-incorrect {
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
