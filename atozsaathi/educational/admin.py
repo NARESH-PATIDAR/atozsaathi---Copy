@@ -1,18 +1,51 @@
 from django.contrib import admin
-from .models import *
+from .models import Heading, ClassName, Subject, Chapter, ContentCategory, TitleClass, TitleClassSubject, TitleClassSubChapter, TitleClassSubChapterCategory, CategoryQuestion, MCQ, ShortAnswer, DetailedAnswer
 
-# Register your models here.
-admin.site.register(Heading)
+class ChapterInline(admin.TabularInline):
+    model = TitleClassSubChapter
+    extra = 1  # Number of extra forms to display
+
+class TitleClassSubjectAdmin(admin.ModelAdmin):
+    inlines = [ChapterInline]
+
+class TitleClassInline(admin.TabularInline):
+    model = TitleClass
+    extra = 1
+
+class HeadingAdmin(admin.ModelAdmin):
+    inlines = [TitleClassInline]
+
+class TitleClassSubjectInline(admin.TabularInline):
+    model = TitleClassSubject
+    extra = 1
+
+class TitleClassAdmin(admin.ModelAdmin):
+    inlines = [TitleClassSubjectInline]
+
+class TitleClassSubChapterCategoryInline(admin.TabularInline):
+    model = TitleClassSubChapterCategory
+    extra = 1
+
+class TitleClassSubChapterAdmin(admin.ModelAdmin):
+    inlines = [TitleClassSubChapterCategoryInline]
+
+class CategoryQuestionInline(admin.TabularInline):
+    model = CategoryQuestion
+    extra = 1
+
+class TitleClassSubChapterCategoryAdmin(admin.ModelAdmin):
+    inlines = [CategoryQuestionInline]
+
+admin.site.register(Heading, HeadingAdmin)
 admin.site.register(ClassName)
 admin.site.register(Subject)
-admin.site.register(ClassSubject)
-admin.site.register(ClassHeading)
-admin.site.register(Material)
 admin.site.register(Chapter)
-admin.site.register(ClassSubjectChapter)
 admin.site.register(ContentCategory)
 admin.site.register(MCQ)
 admin.site.register(ShortAnswer)
 admin.site.register(DetailedAnswer)
-admin.site.register(ContentLink)
+admin.site.register(TitleClass, TitleClassAdmin)
+admin.site.register(TitleClassSubject, TitleClassSubjectAdmin)
+admin.site.register(TitleClassSubChapter, TitleClassSubChapterAdmin)
+admin.site.register(TitleClassSubChapterCategory, TitleClassSubChapterCategoryAdmin)
 

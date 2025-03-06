@@ -14,9 +14,13 @@ function loadChapter(chapterId) {
             contentCategories.innerHTML = ''; // Clear previous categories
             if (data.categories && data.categories.length > 0) {
                 data.categories.forEach(category => {
+                    console.log(`Category ID: ${category.id}, Category Name: ${category.name}`);
                     const button = document.createElement('button');
                     button.innerText = category.name;
-                    button.onclick = () => loadCategory(chapterId, category.name, button);
+                    button.onclick = () => {
+                        console.log(`Button clicked for category ID: ${category.id}`);
+                        loadCategory(chapterId, category.id, button);
+                    };
                     contentCategories.appendChild(button);
                 });
             } else {
@@ -30,10 +34,10 @@ function loadChapter(chapterId) {
         });
 }
 
-function loadCategory(chapterId, categoryName, button) {
-    console.log(`Loading content for category: ${categoryName} in chapter: ${chapterId}`);
+function loadCategory(chapterId, categoryId, button) {
+    console.log(`Loading content for category: ${categoryId} in chapter: ${chapterId}`);
     // Implement the logic to load category content dynamically
-    fetch(`/api/chapters/${chapterId}/content/${categoryName}/`)
+    fetch(`/api/chapters/${chapterId}/content/${categoryId}/`)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -43,7 +47,7 @@ function loadCategory(chapterId, categoryName, button) {
         .then(data => {
             console.log('Content data:', data);
             const contentDisplay = document.getElementById('content-display');
-            contentDisplay.innerHTML = `<h2>${categoryName}</h2>`;
+            contentDisplay.innerHTML = `<h2></h2>`;
             if (data.content && data.content.length > 0) {
                 data.content.forEach((item, index) => {
                     console.log('Content item:', item); // Log each content item to verify its structure

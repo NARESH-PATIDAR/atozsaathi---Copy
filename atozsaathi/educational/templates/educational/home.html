@@ -44,11 +44,11 @@
 
         <!-- Cards Section -->
         <div class="card-container">
-            {% for class_heading in heading.class_headings.all %}
-            <a href="{% url 'subjects' class_id=class_heading.class_name.id heading_id=heading.id %}"> <!-- Updated URL -->
-                <div class="card" style="background-color: {{ class_heading.class_name.card_color }};">
-                    <img src="{{ class_heading.class_name.image.url }}" alt="{{ class_heading.class_name.name }} Icon">
-                    <div class="card-name">{{ class_heading.class_name.name }}</div>
+            {% for title_class in heading.title_classes.all %}
+            <a href="{% url 'subjects' class_id=title_class.class_name.id heading_id=heading.id %}"> <!-- Updated URL -->
+                <div class="card" style="background-color: {{ title_class.class_name.card_color }};">
+                    <img src="{{ title_class.class_name.image.url }}" alt="{{ title_class.class_name.name }} Icon">
+                    <div class="card-name">{{ title_class.class_name.name }}</div>
                 </div>
             </a>
             {% endfor %}
