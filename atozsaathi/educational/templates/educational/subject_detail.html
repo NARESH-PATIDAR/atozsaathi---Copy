@@ -10,32 +10,54 @@
     {% include "educational/navbar.html" %}
 {% endblock %}
 
+ 
 {% block content %}
-    <div class="flex-container">
-        <div class="card-container">
-            {% for class_subject_chapter in class_subject_chapters %}
+<!-- 👇 Mobile Chapter Navbar (Only visible on small screens) -->
+<div class="mobile-chapter-nav">
+    {% for class_subject_chapter in class_subject_chapters %}
+        <button onclick="loadChapter('{{ class_subject_chapter.chapter.id }}')">
+            {{ class_subject_chapter.chapter.name }}
+        </button>
+    {% endfor %}
+</div>
+
+<!-- 👇 Main Layout -->
+<div class="flex-container">
+    <!-- 👈 Sidebar for Desktop -->
+    <div class="card-container">
+        {% for class_subject_chapter in class_subject_chapters %}
             <div class="card chapter-item" data-chapter-id="{{ class_subject_chapter.id }}">
                 <div class="list-group-item">
                     <ul>
-                        <li onclick="loadChapter('{{ class_subject_chapter.chapter.id }}')"> {{ class_subject_chapter.chapter.name }}</li>
+                        <li onclick="loadChapter('{{ class_subject_chapter.chapter.id }}')">
+                            {{ class_subject_chapter.chapter.name }}
+                        </li>
                     </ul>
                 </div>
             </div>
+        {% endfor %}
+    </div>
+
+    <!-- 👉 Content Area -->
+    <div class="content-container">
+        <!-- Category Navbar -->
+        <div class="nav-bar" id="content-categories">
+            {% for category in chapter.content_categories.all %}
+                <button onclick="loadCategory('{{ chapter.id }}', '{{ category.name }}')">
+                    {{ category.name }}
+                </button>
             {% endfor %}
         </div>
-        
-        <div class="content-container">
-            <div class="nav-bar" id="content-categories">
-                {% for category in chapter.content_categories.all %}
-                    <button onclick="loadCategory('{{ chapter.id }}', '{{ category.name }}')">{{ category.name }}</button>
-                {% endfor %}
-            </div>
-            <div id="content-display">
-                <p>Select a category to view content.</p>
-            </div>
+
+        <!-- Content Display -->
+        <div id="content-display">
+            <p>Select a category to view content.</p>
         </div>
     </div>
+</div>
 {% endblock %}
+
+ 
 
 {% block extra_scripts %}
     <script src="{% static 'educational/js/subjectDetail.js' %}"></script>

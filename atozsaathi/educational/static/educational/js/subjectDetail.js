@@ -1,6 +1,22 @@
 function loadChapter(chapterId) {
     console.log(`Loading categories for chapter: ${chapterId}`);
-    // Fetch and display the content categories for the selected chapter
+
+    // 🔹 1. Highlight the active chapter button
+    document.querySelectorAll('.mobile-chapter-nav button').forEach(btn => {
+        btn.classList.remove('active');
+    });
+
+    const activeBtn = Array.from(document.querySelectorAll('.mobile-chapter-nav button'))
+        .find(btn => btn.getAttribute('onclick')?.includes(chapterId));
+
+    if (activeBtn) {
+        activeBtn.classList.add('active');
+
+        // 🔸 Optional: scroll into view for better UX
+        activeBtn.scrollIntoView({ behavior: 'smooth', inline: 'center' });
+    }
+
+    // 🔹 2. Fetch and display the content categories
     fetch(`/api/chapters/${chapterId}/categories/`)
         .then(response => {
             if (!response.ok) {
@@ -12,6 +28,7 @@ function loadChapter(chapterId) {
             console.log('Categories data:', data);
             const contentCategories = document.getElementById('content-categories');
             contentCategories.innerHTML = ''; // Clear previous categories
+
             if (data.categories && data.categories.length > 0) {
                 data.categories.forEach(category => {
                     console.log(`Category ID: ${category.id}, Category Name: ${category.name}`);
@@ -34,71 +51,115 @@ function loadChapter(chapterId) {
         });
 }
 
+
 function loadCategory(chapterId, categoryId, button) {
     console.log(`Loading content for category: ${categoryId} in chapter: ${chapterId}`);
-    // Implement the logic to load category content dynamically
+    
     fetch(`/api/chapters/${chapterId}/content/${categoryId}/`)
         .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
+            if (!response.ok) throw new Error('Network response was not ok');
             return response.json();
         })
         .then(data => {
-            console.log('Content data:', data);
             const contentDisplay = document.getElementById('content-display');
-            contentDisplay.innerHTML = `<h2></h2>`;
-            if (data.content && data.content.length > 0) {
+            contentDisplay.innerHTML = '';
+
+            if (data.content?.length > 0) {
                 data.content.forEach((item, index) => {
-                    console.log('Content item:', item); // Log each content item to verify its structure
                     const contentItem = document.createElement('div');
-                    if (item.type && item.type.toLowerCase() === 'mcq') {
-                        contentItem.classList.add('mcq-question');
-                        contentItem.innerHTML = `
-                            <p>Question ${index + 1}: ${item.question}</p>
-                            <ul class="mcq-options">
-                                <li data-label="A">${item.option1}</li>
-                                <li data-label="B">${item.option2}</li>
-                                <li data-label="C">${item.option3}</li>
-                                <li data-label="D">${item.option4}</li>
-                            </ul>
-                            <p class="mcq-correct">Correct Option: ${item.correct_option}</p>
-                        `;
-                    } else if (item.type && item.type.toLowerCase() === 'short_answer') {
-                        contentItem.innerHTML = `<p>Question ${index + 1}: ${item.question}</p><p>Answer: ${item.answer || 'N/A'}</p>`;
-                    } else if (item.type && item.type.toLowerCase() === 'detailed_answer') {
-                        contentItem.innerHTML = `<p>Question ${index + 1}: ${item.question}</p><p>Detailed Answer: ${item.detailed_answer || 'N/A'}</p>`;
-                    } else if (item.type && item.type.toLowerCase() === 'true_or_false') {
-                        contentItem.innerHTML = `<p>Question ${index + 1}: ${item.question}</p><p>Answer: ${item.is_true ? 'True' : 'False'}</p>`;
-                    } else if (item.type && item.type.toLowerCase() === 'fill_in_the_blanks') {
-                        contentItem.innerHTML = `<p>Question ${index + 1}: ${item.question}</p><p>Answer: ${item.answer || 'N/A'}</p>`;
-                    } else if (item.type && item.type.toLowerCase() === 'notes') {
-                        contentItem.innerHTML = `<h3>${item.title}</h3><p>${item.content}</p>`;
-                    } else if (item.type && item.type.toLowerCase() === 'chapter_content') {
-                        if (item.file_url.endsWith('.pdf')) {
-                            contentItem.innerHTML = `<h3>${item.title}</h3><iframe src="https://docs.google.com/viewer?url=${encodeURIComponent(item.file_url)}&embedded=true" width="100%" height="600px"></iframe>`;
-                        } else if (item.file_url.endsWith('.docx')) {
-                            contentItem.innerHTML = `<h3>${item.title}</h3><iframe src="https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(item.file_url)}" width="100%" height="600px"></iframe>`;
-                        } else {
-                            contentItem.innerHTML = `<h3>${item.title}</h3><a href="${item.file_url}" target="_blank">Download</a>`;
-                        }
-                    } else {
-                        contentItem.innerHTML = `<p>Question ${index + 1}: ${item.question}</p><p>Answer: ${item.answer || 'N/A'}</p>`;
+                    contentItem.classList.add('content-item');
+
+                    const questionHeader = `<h3 class="question-title">Q${index + 1}: ${item.question || item.title || ''}</h3>`;
+
+                    switch ((item.type || '').toLowerCase()) {
+                        case 'mcq':
+                            contentItem.classList.add('mcq');
+                            contentItem.innerHTML = `
+                                ${questionHeader}
+                                <ul class="mcq-options">
+                                    <li>A. ${item.option1}</li>
+                                    <li>B. ${item.option2}</li>
+                                    <li>C. ${item.option3}</li>
+                                    <li>D. ${item.option4}</li>
+                                </ul>
+                                <p class="answer">✅ Correct: ${item.correct_option}</p>
+                            `;
+                            break;
+                        case 'short_answer':
+                            contentItem.classList.add('short-answer');
+                            contentItem.innerHTML = `
+                                ${questionHeader}
+                                <p class="answer">✍️ Answer: ${item.answer || 'N/A'}</p>
+                            `;
+                            break;
+                        case 'detailed_answer':
+                            contentItem.classList.add('detailed-answer');
+                            contentItem.innerHTML = `
+                                ${questionHeader}
+                                <div class="answer detailed">${item.detailed_answer || 'N/A'}</div>
+                            `;
+                            break;
+                        case 'true_or_false':
+                            contentItem.classList.add('true-false');
+                            const tf = item.is_true ? 'True ✅' : 'False ❌';
+                            contentItem.innerHTML = `
+                                ${questionHeader}
+                                <p class="answer">${tf}</p>
+                            `;
+                            break;
+                        case 'fill_in_the_blanks':
+                            contentItem.classList.add('fill-blanks');
+                            contentItem.innerHTML = `
+                                ${questionHeader}
+                                <p class="answer">📝 ${item.answer || 'N/A'}</p>
+                            `;
+                            break;
+                        case 'notes':
+                            contentItem.classList.add('notes');
+                            contentItem.innerHTML = `
+                                <h3 class="notes-title">🗒️ ${item.title}</h3>
+                                <div class="notes-body">${item.content}</div>
+                            `;
+                            break;
+                        case 'chapter_content':
+                            contentItem.classList.add('chapter-file');
+                            const file = item.file_url;
+                            if (file.endsWith('.pdf')) {
+                                contentItem.innerHTML = `
+                                    <h3>${item.title}</h3>
+                                    <iframe src="https://docs.google.com/viewer?url=${encodeURIComponent(file)}&embedded=true" width="100%" height="600px"></iframe>
+                                `;
+                            } else if (file.endsWith('.docx')) {
+                                contentItem.innerHTML = `
+                                    <h3>${item.title}</h3>
+                                    <iframe src="https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(file)}" width="100%" height="600px"></iframe>
+                                `;
+                            } else {
+                                contentItem.innerHTML = `
+                                    <h3>${item.title}</h3>
+                                    <a href="${file}" target="_blank" class="download-link">📥 Download</a>
+                                `;
+                            }
+                            break;
+                        default:
+                            contentItem.innerHTML = `
+                                ${questionHeader}
+                                <p class="answer">Answer: ${item.answer || 'N/A'}</p>
+                            `;
                     }
+
                     contentDisplay.appendChild(contentItem);
                 });
             } else {
-                contentDisplay.innerHTML += '<p>No content available for this category.</p>';
+                contentDisplay.innerHTML = '<p>No content available for this category.</p>';
             }
-            
-            // Highlight the active category button
-            const buttons = document.querySelectorAll('.nav-bar button');
-            buttons.forEach(btn => btn.classList.remove('active'));
+
+            // Highlight active button
+            document.querySelectorAll('.nav-bar button').forEach(btn => btn.classList.remove('active'));
             button.classList.add('active');
         })
         .catch(error => {
             console.error('Error fetching content:', error);
-            const contentDisplay = document.getElementById('content-display');
-            contentDisplay.innerHTML = '<p>Error loading content. Please try again later.</p>';
+            document.getElementById('content-display').innerHTML = '<p>Error loading content. Please try again later.</p>';
         });
 }
