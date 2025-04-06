@@ -1,6 +1,5 @@
 from django.contrib import admin
-from .models import Heading, ClassName, Subject, Chapter, ContentCategory, TitleClass, TitleClassSubject, TitleClassSubChapter, TitleClassSubChapterCategory, CategoryQuestion, MCQ, ShortAnswer, DetailedAnswer
-
+from .models import  *
 class ChapterInline(admin.TabularInline):
     model = TitleClassSubChapter
     extra = 1  # Number of extra forms to display
@@ -44,6 +43,13 @@ admin.site.register(ContentCategory)
 admin.site.register(MCQ)
 admin.site.register(ShortAnswer)
 admin.site.register(DetailedAnswer)
+
+admin.site.register(TrueOrFalse)
+admin.site.register(FillInTheBlanks)
+admin.site.register(Notes)
+admin.site.register(ChapterContent)
+
+
 admin.site.register(TitleClass, TitleClassAdmin)
 admin.site.register(TitleClassSubject, TitleClassSubjectAdmin)
 admin.site.register(TitleClassSubChapter, TitleClassSubChapterAdmin)

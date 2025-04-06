@@ -61,6 +61,38 @@ class DetailedAnswer(models.Model):
     def __str__(self):
         return self.question
 
+class TrueOrFalse(models.Model):
+    question = models.TextField()
+    is_true = models.BooleanField()
+    title_class_sub_chapter_category = models.ForeignKey('TitleClassSubChapterCategory', on_delete=models.CASCADE, related_name='true_or_false')
+
+    def __str__(self):
+        return self.question
+
+class FillInTheBlanks(models.Model):
+    question = models.TextField()
+    answer = models.TextField()
+    title_class_sub_chapter_category = models.ForeignKey('TitleClassSubChapterCategory', on_delete=models.CASCADE, related_name='fill_in_the_blanks')
+
+    def __str__(self):
+        return self.question
+
+class Notes(models.Model):
+    title = models.CharField(max_length=255)
+    content = models.TextField()
+    title_class_sub_chapter_category = models.ForeignKey('TitleClassSubChapterCategory', on_delete=models.CASCADE, related_name='notes')
+
+    def __str__(self):
+        return self.title
+
+class ChapterContent(models.Model):
+    title = models.CharField(max_length=255)
+    file = models.FileField(upload_to='chapter_contents/')
+    title_class_sub_chapter_category = models.ForeignKey('TitleClassSubChapterCategory', on_delete=models.CASCADE, related_name='chapter_contents')
+
+    def __str__(self):
+        return self.title
+
 class TitleClass(models.Model):
     title = models.ForeignKey(Heading, on_delete=models.CASCADE, related_name='title_classes')
     class_name = models.ForeignKey(ClassName, on_delete=models.CASCADE, related_name='class_titles')
@@ -106,6 +138,10 @@ class CategoryQuestion(models.Model):
     mcq = models.ForeignKey(MCQ, null=True, blank=True, on_delete=models.CASCADE)
     short_answer = models.ForeignKey(ShortAnswer, null=True, blank=True, on_delete=models.CASCADE)
     detailed_answer = models.ForeignKey(DetailedAnswer, null=True, blank=True, on_delete=models.CASCADE)
+    true_or_false = models.ForeignKey(TrueOrFalse, null=True, blank=True, on_delete=models.CASCADE)
+    fill_in_the_blanks = models.ForeignKey(FillInTheBlanks, null=True, blank=True, on_delete=models.CASCADE)
+    notes = models.ForeignKey(Notes, null=True, blank=True, on_delete=models.CASCADE)
+    chapter_content = models.ForeignKey(ChapterContent, null=True, blank=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{self.title_class_sub_chapter_category} - Question"

@@ -15,6 +15,7 @@
     <center><h1>{{ class_obj.name }} - {{ heading.title }}</h1></center>
     <div class="resource-section" id="dark">
         <div class="container">
+            <div class="subject-wrapper">
             <div class="row">
                 {% for class_subject in subjects %}
                 <div class="col-sm-2">
@@ -28,6 +29,7 @@
                 {% endfor %}
             </div>
         </div>
+    </div>
     </div>
 {% endblock %}
 {% block extra_scripts %}

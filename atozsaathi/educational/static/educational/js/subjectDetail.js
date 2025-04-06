@@ -68,6 +68,20 @@ function loadCategory(chapterId, categoryId, button) {
                         contentItem.innerHTML = `<p>Question ${index + 1}: ${item.question}</p><p>Answer: ${item.answer || 'N/A'}</p>`;
                     } else if (item.type && item.type.toLowerCase() === 'detailed_answer') {
                         contentItem.innerHTML = `<p>Question ${index + 1}: ${item.question}</p><p>Detailed Answer: ${item.detailed_answer || 'N/A'}</p>`;
+                    } else if (item.type && item.type.toLowerCase() === 'true_or_false') {
+                        contentItem.innerHTML = `<p>Question ${index + 1}: ${item.question}</p><p>Answer: ${item.is_true ? 'True' : 'False'}</p>`;
+                    } else if (item.type && item.type.toLowerCase() === 'fill_in_the_blanks') {
+                        contentItem.innerHTML = `<p>Question ${index + 1}: ${item.question}</p><p>Answer: ${item.answer || 'N/A'}</p>`;
+                    } else if (item.type && item.type.toLowerCase() === 'notes') {
+                        contentItem.innerHTML = `<h3>${item.title}</h3><p>${item.content}</p>`;
+                    } else if (item.type && item.type.toLowerCase() === 'chapter_content') {
+                        if (item.file_url.endsWith('.pdf')) {
+                            contentItem.innerHTML = `<h3>${item.title}</h3><iframe src="https://docs.google.com/viewer?url=${encodeURIComponent(item.file_url)}&embedded=true" width="100%" height="600px"></iframe>`;
+                        } else if (item.file_url.endsWith('.docx')) {
+                            contentItem.innerHTML = `<h3>${item.title}</h3><iframe src="https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(item.file_url)}" width="100%" height="600px"></iframe>`;
+                        } else {
+                            contentItem.innerHTML = `<h3>${item.title}</h3><a href="${item.file_url}" target="_blank">Download</a>`;
+                        }
                     } else {
                         contentItem.innerHTML = `<p>Question ${index + 1}: ${item.question}</p><p>Answer: ${item.answer || 'N/A'}</p>`;
                     }

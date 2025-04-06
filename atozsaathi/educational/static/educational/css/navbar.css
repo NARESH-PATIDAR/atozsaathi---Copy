@@ -1,223 +1,196 @@
-/* Navbar Style */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+/* Base Styles */
 body {
-    padding-top: 50px;  
+    font-family: 'Poppins', sans-serif;
+    padding-top: 57.6px;
+    margin: 0;
 }
+
+/* Navbar Container */
 .navbar {
     display: flex;
-    justify-content: space-between; /* Space between logo, search bar, and links */
+    justify-content: space-between;
     align-items: center;
-    padding: 10px 30px;
-    background-color: rgba(0, 0, 0, 0.7);
+    padding: 12px 30px;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
     color: #fff;
     position: fixed;
     top: 0;
-    left: 0;
     width: 100%;
     z-index: 1000;
- }
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: background 0.3s ease;
+}
 
 /* Logo Section */
-.navbar .logo-container {
-    display: flex;
-    align-items: center; /* Align logo image and text vertically */
-}
-
-.navbar .logo-link {
+.logo-container {
     display: flex;
     align-items: center;
-    text-decoration: none; /* Prevent underline on hover or click */
 }
 
-.navbar .logo-link img {
-    width: 30px;
-    height: 30px;
-    margin-right: 10px; /* Space between logo image and text */
-}
-
-/* Logo Text (Website name) */
-.navbar .logo {
-    font-size: 20px;
-    font-weight: bold;
-    color: white; /* Text color */
-    white-space: nowrap; /* Prevent text from wrapping */
-    cursor: pointer; /* Make it appear clickable */
-}
-
-/* Navbar Links and Search Bar Group */
-.navbar .right-section {
+.logo-link {
     display: flex;
     align-items: center;
-    margin-left: auto; /* Push the entire section to the right */
+    text-decoration: none;
 }
 
-/* Search Bar Styles */
+.logo-link img {
+    width: 32px;
+    height: 32px;
+    margin-right: 10px;
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: 1px;
+}
+
+/* Right Section: Search + Links */
+.right-section {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+}
+
+/* Search Bar */
 .group {
+    position: relative;
     display: flex;
     align-items: center;
-    position: relative;
-    max-width: 190px;
-    margin-left: 10px; /* Add space between search bar and menu links */
+    max-width: 200px;
+    margin-right: 15px;
 }
 
 .input {
     width: 100%;
-    height: 30px;
-    line-height: 22px;
-    padding: 0 0.8rem;
-    padding-left: 2.2rem;
-    border: 2px solid transparent;
+    padding: 10px 12px 10px 36px;
     border-radius: 8px;
-    outline: none;
-    background-color: #f3f3f4;
-    color: #0d0c22;
-    transition: 0.3s ease;
+    border: none;
     font-size: 14px;
+    background-color: #f5f5f5;
+    color: #333;
+    transition: 0.3s ease;
 }
 
 .input::placeholder {
-    color: #9e9ea7;
+    color: #999;
 }
 
-.input:focus,
-.input:hover {
+.input:focus {
     outline: none;
-    border-color: rgba(0, 48, 73, 0.4);
     background-color: #fff;
-    box-shadow: 0 0 0 4px rgb(0 48 73 / 10%);
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2);
 }
 
 /* Navbar Links */
-.navbar .nav-links {
+.nav-links {
     display: flex;
     align-items: center;
+    gap: 18px;
 }
 
-.navbar .nav-links a {
-    color: #fff;
+.nav-links a {
     text-decoration: none;
-    margin-left: 10px;
-    font-size: 16px;
+    color: #fff;
+    font-weight: 500;
+    transition: color 0.3s ease;
 }
 
-.navbar .nav-links a:hover {
-    color: #ff6600; /* Add hover effect for links */
+.nav-links a:hover {
+    color: #ff9800;
 }
 
-/* Search Icon Visibility */
+/* Search Icon */
 .search-icon-img {
     width: 20px;
     height: 20px;
-    margin-right: 10px; /* Space between icon and link */
     cursor: pointer;
-    display: none; /* Hidden by default */
+    display: none;
 }
 
-/* Desktop Styles (For devices above 768px) */
+/* Toggle Button (Hamburger) */
+.menu-toggle {
+    display: none;
+    font-size: 26px;
+    color: #fff;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+/* Desktop adjustments */
 @media screen and (min-width: 769px) {
-    .navbar .menu-toggle {
-        display: none; /* Hide the toggle menu on desktop */
-    }
-
-    /* Align the search bar and navigation links to the right */
-    .navbar .right-section {
-        display: flex;
-        align-items: center;
-    }
-
-    /* Adjust margins */
-    .group {
-        margin-right: 10px; /* Reduce space between the search bar and nav links */
+    .menu-toggle {
+        display: none;
     }
 }
 
-/* Mobile Styles (For devices under 768px) */
+/* Mobile Styles */
 @media screen and (max-width: 768px) {
-    .navbar .nav-links {
+    body {
+        padding-top: 60px;
+    }
+
+    .navbar {
+        flex-wrap: wrap;
+        justify-content: space-between;
+        padding: 12px 20px;
+    }
+
+    .group {
+        display: none;
+    }
+
+    .search-icon-img {
+        display: block;
+        margin-right: 10px;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    .nav-links {
         display: none;
         flex-direction: column;
-        position: absolute;
-        top: 50px;
-        right: 0;
-        background-color: rgba(0, 0, 0, 0.9);
+        background: rgba(0, 0, 0, 0.95);
         width: 100%;
+        padding: 15px 0;
+        position: absolute;
+        top: 60px;
+        left: 0;
         text-align: center;
-        padding: 10px 0;
+        transition: all 0.3s ease;
     }
 
-    .navbar .nav-links a {
-        margin: 5px 0;
+    .nav-links.active {
+        display: flex;
+    }
+
+    .nav-links a {
+        padding: 10px 0;
         font-size: 18px;
     }
 
-    /* Menu Toggle Button (Only visible in mobile view) */
-    .navbar .menu-toggle {
-        display: block;
-        font-size: 24px;
-        cursor: pointer;
-    }
-
-    .navbar .nav-links.active {
-        display: flex;
-    }
-
-    /* Group search icon and toggle menu on the right side */
-    .navbar .right-icons {
-        display: flex;
-        align-items: center;
-        margin-left: auto; /* Push to the right */
-    }
-
-    /* Search icon styles */
-    .search-icon-img {
-        display: block; /* Make search icon visible */
-        margin-right: 10px; /* Adjust space if needed */
-    }
-
-    /* Menu toggle button styles */
-    .menu-toggle {
-        display: block;
-        font-size: 24px;
-        cursor: pointer;
-    }
-
-    /* Hide search input in mobile view by default */
-    .input {
-        display: none;
-    }
-
-    /* When search bar is toggled in mobile view */
-    .search-bar-container.active {
+    .search-bar-container.active .group {
         display: flex;
         position: absolute;
-        left: 0;
-        top: 50%;
-        transform: translateY(-50%); /* Center vertically */
-        margin-left: 10px;
+        top: 60px;
+        left: 10px;
+        right: 10px;
         z-index: 1001;
     }
 
-    /* When the input field is toggled */
-    .input.active {
-        display: block; /* Show search input when active */
+    .navbar.search-active {
+        justify-content: center;
     }
 
-    /* Move the menu toggle button to the center when search bar is active */
     .navbar.search-active .menu-toggle {
         position: absolute;
         left: 50%;
         transform: translateX(-50%);
-    }
-
-    /* Adjust navbar when search bar is open */
-    .navbar.search-active {
-        justify-content: center;
-    }
-}
-
-
-
-@media (max-width: 768px) {
-    body {
-        padding-top: 50px; /* Adjust this value based on the height of your navbar for mobile view */
     }
 }

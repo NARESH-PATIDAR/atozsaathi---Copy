@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404, render
 from django.http import JsonResponse
-from .models import Heading, ClassName, Subject, Chapter, ContentCategory, TitleClass, TitleClassSubject, TitleClassSubChapter, TitleClassSubChapterCategory, CategoryQuestion, MCQ, ShortAnswer, DetailedAnswer
+from .models import Heading, ClassName, Subject, Chapter, ContentCategory, TitleClass, TitleClassSubject, TitleClassSubChapter, TitleClassSubChapterCategory, CategoryQuestion, MCQ, ShortAnswer, DetailedAnswer, TrueOrFalse, FillInTheBlanks, Notes, ChapterContent
 
 # Create your views here.
 def index(request):
@@ -67,6 +67,10 @@ def get_category_content(request, chapter_id, category_id):
     mcqs = MCQ.objects.filter(title_class_sub_chapter_category=title_class_sub_chapter_category)
     short_answers = ShortAnswer.objects.filter(title_class_sub_chapter_category=title_class_sub_chapter_category)
     detailed_answers = DetailedAnswer.objects.filter(title_class_sub_chapter_category=title_class_sub_chapter_category)
+    true_or_false_questions = TrueOrFalse.objects.filter(title_class_sub_chapter_category=title_class_sub_chapter_category)
+    fill_in_the_blanks_questions = FillInTheBlanks.objects.filter(title_class_sub_chapter_category=title_class_sub_chapter_category)
+    notes = Notes.objects.filter(title_class_sub_chapter_category=title_class_sub_chapter_category)
+    chapter_contents = ChapterContent.objects.filter(title_class_sub_chapter_category=title_class_sub_chapter_category)
     
     content_data = []
 
@@ -93,6 +97,34 @@ def get_category_content(request, chapter_id, category_id):
             'type': 'detailed_answer',
             'question': detailed_answer.question,
             'detailed_answer': detailed_answer.detailed_answer
+        })
+    
+    for true_or_false in true_or_false_questions:
+        content_data.append({
+            'type': 'true_or_false',
+            'question': true_or_false.question,
+            'is_true': true_or_false.is_true
+        })
+    
+    for fill_in_the_blank in fill_in_the_blanks_questions:
+        content_data.append({
+            'type': 'fill_in_the_blanks',
+            'question': fill_in_the_blank.question,
+            'answer': fill_in_the_blank.answer
+        })
+    
+    for note in notes:
+        content_data.append({
+            'type': 'notes',
+            'title': note.title,
+            'content': note.content
+        })
+    
+    for chapter_content in chapter_contents:
+        content_data.append({
+            'type': 'chapter_content',
+            'title': chapter_content.title,
+            'file_url': chapter_content.file.url
         })
 
     print(f"Content data: {content_data}")

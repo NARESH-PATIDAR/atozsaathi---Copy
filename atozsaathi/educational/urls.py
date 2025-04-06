@@ -20,7 +20,6 @@ urlpatterns = [
       path('api/chapters/<int:chapter_id>/categories/', views.get_chapter_categories, name='get_chapter_categories'),
       path('api/chapters/<int:chapter_id>/content/<int:category_id>/', views.get_category_content, name='get_category_content'),
 
-      # path('api/chapters/<int:chapter_id>/content/<str:category_name>/', views.get_category_content, name='get_category_content'),
-
+ 
  
 ]

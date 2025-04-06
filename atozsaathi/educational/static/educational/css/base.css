@@ -1,9 +1,17 @@
-/* Global Reset */
+/* Reset */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
+
+/* Body & Page Background */
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(to right, #e1f5fe, #ede7f6);
+    color: #333;
+}
+
 
 html, body {
     overflow-x: hidden; /* Prevent horizontal overflow */
@@ -12,8 +20,8 @@ html, body {
 
 /* Body Style */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #e6f7ff;
+    /* font-family: Arial, sans-serif;
+    background-color: #e6f7ff; */
     display: flex;
     flex-direction: column;
     min-height: calc(100vh - 100px); /* Adjust for padding */

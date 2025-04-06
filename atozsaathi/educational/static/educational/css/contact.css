@@ -1,211 +1,132 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
-        /* Global Reset */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
 
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            background-color: #f4f4f4;
-            overflow-x: hidden; /* Prevent horizontal scroll */
-        }
+/* Container Layout */
+.contact-container {
+    display: flex;
+    flex-direction: column;
+    padding: 50px 20px 60px;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 30px;
+}
 
-        /* Navbar Style */
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 20px;
-            background-color: rgba(0, 0, 0, 0.7);
-            color: #fff;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 1000;
-        }
+/* Common Box Styles */
+.contact-info, .contact-form {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 40px 30px;
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    min-height: 520px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
 
-        .navbar .logo-container {
-            display: flex;
-            align-items: center;
-        }
+/* Headings */
+.contact-info h2, .contact-form h2 {
+    font-size: 30px;
+    color: #4a148c;
+    text-align: center;
+    margin-bottom: 25px;
+}
 
-        .navbar .logo-container img {
-            width: 30px;
-            height: 30px;
-            margin-right: 10px;
-        }
+/* Contact Info Styling */
+.contact-info p {
+    font-size: 16px;
+    margin: 10px 0;
+    line-height: 1.6;
+    color: #555;
+}
 
-        .navbar .logo {
-            font-size: 20px;
-            font-weight: bold;
-        }
+.contact-info p strong {
+    color: #4a148c;
+}
 
-        .navbar .menu-toggle {
-            display: none;
-            font-size: 24px;
-            cursor: pointer;
-        }
+.contact-info a {
+    color: #7e57c2;
+    text-decoration: none;
+}
 
-        .navbar .nav-links {
-            display: flex;
-            align-items: center;
-        }
+.contact-info a:hover {
+    text-decoration: underline;
+}
 
-        .navbar .nav-links a {
-            color: #fff;
-            text-decoration: none;
-            margin-left: 10px;
-            font-size: 16px;
-        }
+/* Contact Form Inputs */
+.contact-form form {
+    display: flex;
+    flex-direction: column;
+}
 
-        /* From Uiverse.io by LightAndy1 */
-        .group {
-            display: flex;
-            line-height: 28px;
-            align-items: center;
-            position: relative;
-            max-width: 190px;
-        }
+.contact-form label {
+    font-size: 15px;
+    margin: 10px 0 5px;
+    color: #555;
+}
 
-        .input {
-            width: 100%;
-            height: 40px;
-            line-height: 28px;
-            padding: 0 1rem;
-            padding-left: 2.5rem;
-            border: 2px solid transparent;
-            border-radius: 8px;
-            outline: none;
-            background-color: #f3f3f4;
-            color: #0d0c22;
-            transition: 0.3s ease;
-        }
+.contact-form input,
+.contact-form textarea {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background: #f9f9f9;
+    font-size: 15px;
+    transition: border 0.3s;
+}
 
-        .input::placeholder {
-            color: #9e9ea7;
-        }
+.contact-form input:focus,
+.contact-form textarea:focus {
+    border-color: #7e57c2;
+    outline: none;
+    background: #fff;
+}
 
-        .input:focus,
-        input:hover {
-            outline: none;
-            border-color: rgba(0, 48, 73, 0.4);
-            background-color: #fff;
-            box-shadow: 0 0 0 4px rgb(0 48 73 / 10%);
-        }
+/* Submit Button */
+.contact-form button {
+    margin-top: 20px;
+    padding: 14px;
+    font-size: 16px;
+    color: #fff;
+    background: linear-gradient(to right, #7e57c2, #4fc3f7);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.4s ease;
+}
 
-        .icon {
-            position: absolute;
-            left: 1rem;
-            fill: #9e9ea7;
-            width: 1rem;
-            height: 1rem;
-        }
+.contact-form button:hover {
+    background: linear-gradient(to right, #4fc3f7, #7e57c2);
+    transform: scale(1.03);
+}
 
-        /* Mobile Styles (For devices under 768px) */
-        @media screen and (max-width: 768px) {
-            .navbar .nav-links {
-                display: none;
-                flex-direction: column;
-                position: absolute;
-                top: 50px;
-                right: 0;
-                background-color: rgba(0, 0, 0, 0.9);
-                width: 100%;
-                text-align: center;
-                padding: 10px 0;
-            }
+/* Icons (optional, with Font Awesome) */
+.contact-info p::before {
+    display: inline-block;
+    margin-right: 10px;
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    color: #7e57c2;
+}
 
-            .navbar .nav-links a {
-                margin: 5px 0;
-                font-size: 18px;
-            }
+.contact-info p:nth-child(2)::before { content: "\f3c5"; } /* Map marker */
+.contact-info p:nth-child(3)::before { content: "\f095"; } /* Phone */
+.contact-info p:nth-child(4)::before { content: "\f0e0"; } /* Email */
+.contact-info p:nth-child(6)::before { content: "\f082"; } /* Facebook */
+.contact-info p:nth-child(7)::before { content: "\f099"; } /* Twitter */
+.contact-info p:nth-child(8)::before { content: "\f16d"; } /* Instagram */
 
-            .navbar .search-container {
-                margin: 10px 0;
-                width: 100%;
-                justify-content: center;
-            }
 
-            .navbar .menu-toggle {
-                display: block;
-            }
+/* Responsive Layout */
+@media (min-width: 768px) {
+    .contact-container {
+        flex-direction: row;
+        justify-content: space-between;
+    }
 
-            .navbar .nav-links.active {
-                display: flex;
-            }
-        }
-
-        /* Contact Page Styles */
-        .contact-container {
-            display: block; /* Stack the sections on mobile */
-            padding: 80px 20px 20px; /* Added padding top to avoid overlap with navbar */
-            margin: 0 auto;
-            max-width: 100%;
-            box-sizing: border-box;
-        }
-
-        .contact-info, .contact-form {
-            background-color: white;
-            padding: 20px;
-            margin: 10px 0;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .contact-info h2, .contact-form h2 {
-            text-align: center;
-            color: #333;
-        }
-
-        .contact-info p {
-            text-align: left;
-            color: #666;
-            font-size: 16px;
-        }
-
-        .contact-form input, .contact-form textarea {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-
-        .contact-form button {
-            background-color: #333;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            width: 100%;
-        }
-
-        .contact-form button:hover {
-            background-color: #555;
-        }
-
-        /* For larger screens */
-        @media (min-width: 768px) {
-            .contact-container {
-                display: flex;
-                justify-content: space-between;
-            }
-            .contact-info, .contact-form {
-                flex: 1;
-                margin: 10px;
-                max-width: 48%; /* Maintain some space between sections */
-            }
-            .contact-info {
-                flex: 0.4;
-            }
-            .contact-form {
-                flex: 0.55;
-            }
-        }
-    
+    .contact-info,
+    .contact-form {
+        width: 48%;
+    }
+}
