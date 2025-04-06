@@ -124,11 +124,15 @@ function loadCategory(chapterId, categoryId, button) {
                         case 'chapter_content':
                             contentItem.classList.add('chapter-file');
                             const file = item.file_url;
+                            // if (file.endsWith('.pdf')) {
+                            //     contentItem.innerHTML = `
+                            //         <h3>${item.title}</h3>
+                            //         <iframe src="https://docs.google.com/viewer?url=${encodeURIComponent(file)}&embedded=true" width="100%" height="600px"></iframe>
+                            //     `;
+                            
                             if (file.endsWith('.pdf')) {
-                                contentItem.innerHTML = `
-                                    <h3>${item.title}</h3>
-                                    <iframe src="https://docs.google.com/viewer?url=${encodeURIComponent(file)}&embedded=true" width="100%" height="600px"></iframe>
-                                `;
+                                contentItem.innerHTML = `<h3>${item.title}</h3><iframe src="${file}" width="100%" height="600px"></iframe>`;
+
                             } else if (file.endsWith('.docx')) {
                                 contentItem.innerHTML = `
                                     <h3>${item.title}</h3>

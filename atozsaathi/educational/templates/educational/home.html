@@ -9,22 +9,24 @@
 
 {% block extra_styles %}
 <link rel="stylesheet" href="{% static 'educational/css/home.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 {% endblock %}
 
 {% block content %}
     <!-- Main Content -->
-    <style>
-        a{  
-            text-decoration: none;
-        }
-    </style>
+     
     <div class="main-content">
 
         <div class="headingAndSearch">
             <h1>Hello, What Do You Want To Learn?</h1>
+            
+            <div class="search-wrapper">
             <div class="search-bar-home">
                 <input type="text" id="search-input-home" placeholder="">
                 <img src="{% static 'educational/images/search-icon.svg' %}" alt="Search Icon" class="search-icon-home">
+            </div>
+            <div id="search-results-container" class="search-results hidden"></div>
             </div>
 
             <div class="buttonsSearch">

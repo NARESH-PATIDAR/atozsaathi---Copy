@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 class Heading(models.Model):
     title = models.CharField(max_length=255)
@@ -12,11 +13,15 @@ class ClassName(models.Model):
     image = models.ImageField(upload_to='cards/images/')
     card_color = models.CharField(max_length=7, default='#ffffff')  # Hex color code
 
+     
+
     def __str__(self):
         return self.name
 
 class Subject(models.Model):
     name = models.CharField(max_length=255, unique=True, null=True)  # Unique subject name
+
+   
 
     def __str__(self):
         return self.name
@@ -24,6 +29,7 @@ class Subject(models.Model):
 class Chapter(models.Model):
     name = models.CharField(max_length=100)
 
+     
     def __str__(self):
         return self.name
 

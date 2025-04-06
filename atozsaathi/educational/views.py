@@ -1,5 +1,7 @@
 from django.shortcuts import get_object_or_404, render
 from django.http import JsonResponse
+from django.db.models import Q
+
 from .models import Heading, ClassName, Subject, Chapter, ContentCategory, TitleClass, TitleClassSubject, TitleClassSubChapter, TitleClassSubChapterCategory, CategoryQuestion, MCQ, ShortAnswer, DetailedAnswer, TrueOrFalse, FillInTheBlanks, Notes, ChapterContent
 
 # Create your views here.
@@ -10,6 +12,75 @@ def home(request):
     headings = Heading.objects.prefetch_related('title_classes__class_name').all()
     context = {'headings': headings}
     return render(request, 'educational/home.html', context)
+
+def search_all(request):
+    query = request.GET.get('q', '').strip().lower()
+    results = []
+
+    if not query:
+        return JsonResponse({'results': results})
+
+    # 1. Search in Heading
+    headings = Heading.objects.filter(title__icontains=query)
+    for heading in headings:
+        for title_class in heading.title_classes.all():
+            results.append({
+                'display': f"{heading.title} > {title_class.class_name.name}",
+                'url': f"/class/{title_class.class_name.id}/heading/{heading.id}/subjects/"
+            })
+
+    if results:
+        return JsonResponse({'results': results})
+
+    # 2. Search in ClassName
+    classes = ClassName.objects.filter(name__icontains=query)
+    for class_obj in classes:
+        title_classes = TitleClass.objects.filter(class_name=class_obj).select_related('title')
+        for title_class in title_classes:
+            results.append({
+                'display': f"{title_class.title.title} > {class_obj.name}",
+                'url': f"/class/{class_obj.id}/heading/{title_class.title.id}/subjects/"
+            })
+
+    if results:
+        return JsonResponse({'results': results})
+
+    # 3. Search in Subject
+    subjects = Subject.objects.filter(name__icontains=query)
+    for subject in subjects:
+        title_class_subjects = TitleClassSubject.objects.filter(subject=subject).select_related(
+            'title_class__title', 'title_class__class_name'
+        )
+        for tcs in title_class_subjects:
+            heading = tcs.title_class.title
+            class_name = tcs.title_class.class_name
+            results.append({
+                'display': f"{heading.title} > {class_name.name} > {subject.name}",
+                'url': f"/class/{class_name.id}/subject/{subject.id}/"
+            })
+
+    if results:
+        return JsonResponse({'results': results})
+
+    # 4. Search in Chapter
+    chapters = Chapter.objects.filter(name__icontains=query)
+    for chapter in chapters:
+        subchapters = TitleClassSubChapter.objects.filter(chapter=chapter).select_related(
+            'title_class_subject__subject',
+            'title_class_subject__title_class__title',
+            'title_class_subject__title_class__class_name'
+        )
+        for sc in subchapters:
+            heading = sc.title_class_subject.title_class.title
+            class_name = sc.title_class_subject.title_class.class_name
+            subject = sc.title_class_subject.subject
+            results.append({
+                'display': f"{heading.title} > {class_name.name} > {subject.name} > {chapter.name}",
+                'url': f"/class/{class_name.id}/subject/{subject.id}/"
+            })
+
+    return JsonResponse({'results': results})
+
 
 def contact(request):
     return render(request, 'educational/contact.html')

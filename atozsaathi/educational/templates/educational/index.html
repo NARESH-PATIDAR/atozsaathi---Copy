@@ -3,29 +3,35 @@
 {% block title %}StudySaathi{% endblock %}
 
 {% block navbar %}
-        {% include "educational/navbar.html" %}
+    {% include "educational/navbar.html" %}
 {% endblock %}
 
-
-
- {% block content %}
-
+{% block content %}
     {% load static %}
     <!-- Hero Section -->
-    <!-- Sliding Background -->
     <div class="background">
-        <img src="{% static 'educational/images/image1.jpg' %}" alt="Background 1">
-        <img src="{% static 'educational/images/image2.jpg' %}" alt="Background 2">
-        <img src="{% static 'educational/images/image3.jpg' %}" alt="Background 3">
-        <img src="{% static 'educational/images/image4.jpg' %}" alt="Background 4">
-        <img src="{% static 'educational/images/image5.jpg' %}" alt="Background 5">
+        <!-- Desktop Images -->
+        <img src="{% static 'educational/images/image1.jpg' %}" alt="Background 1" class="bg-img desktop-only">
+        <img src="{% static 'educational/images/image2.jpg' %}" alt="Background 2" class="bg-img desktop-only">
+        <img src="{% static 'educational/images/image3.jpg' %}" alt="Background 3" class="bg-img desktop-only">
+        <img src="{% static 'educational/images/image4.jpg' %}" alt="Background 4" class="bg-img desktop-only">
+        <img src="{% static 'educational/images/image5.jpg' %}" alt="Background 5" class="bg-img desktop-only">
+
+        <!-- Mobile Images -->
+        <img src="{% static 'educational/images/mobile1.jpg' %}" alt="Mobile Background 1" class="bg-img mobile-only">
+        <img src="{% static 'educational/images/mobile2.jpg' %}" alt="Mobile Background 2" class="bg-img mobile-only">
+        <img src="{% static 'educational/images/mobile3.jpg' %}" alt="Mobile Background 3" class="bg-img mobile-only">
+        <img src="{% static 'educational/images/mobile4.jpg' %}" alt="Mobile Background 4" class="bg-img mobile-only">
+        <img src="{% static 'educational/images/mobile5.jpg' %}" alt="Mobile Background 5" class="bg-img mobile-only">
+
+         
     </div>
 
     <!-- Home Section -->
     <div id="home" class="section">
         <div>
-            <p class="quote">"Education is the most powerful weapon which you can use to change the world."</p>
-            <a href=" {% url "home" %}" class="home-button">Start Learning</a>
+            <p class="quote" id="home-quote">"Education is the most powerful weapon which you can use to change the world."</p>
+            <a href="{% url 'home' %}" class="home-button">Start Learning</a>
         </div>
     </div>
 {% endblock %}

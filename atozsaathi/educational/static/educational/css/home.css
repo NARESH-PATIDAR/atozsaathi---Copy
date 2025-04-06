@@ -1,9 +1,14 @@
- /* Home Page Specific Styles */
+/* Home Page Specific Styles */
 body, html {
     margin: 0;
     padding: 0;
     overflow-x: hidden; /* Prevent horizontal scrolling */
     box-sizing: border-box;
+}
+
+a{
+     
+    text-decoration: none;
 }
 
 .main-content {
@@ -107,12 +112,7 @@ body, html {
         gap: 10px;
         padding: 10px; /* Adjust padding for smaller screens */
     }
-
-   
 }
-
-
-
 
 /* ---------------------------------------------------- */
 body {
@@ -120,7 +120,6 @@ body {
     color: #131313;
     display: flex;
     justify-content: center;
-    /* align-items: center; */
     margin: 0;
 }
 
@@ -136,7 +135,6 @@ h1 {
 }
 
 .search-bar-home {
-    
     position: relative;
     display: inline-block;
     width: 100%;
@@ -166,7 +164,6 @@ h1 {
     fill: #fff;
 }
 
-
 .buttonsSearch {
     margin-top: 20px;
     display: flex; /* Use Flexbox for layout */
@@ -174,7 +171,6 @@ h1 {
     justify-content: center; /* Center horizontally */
     align-items: center; /* Center vertically */
 }
-
 
 button {
     background-color: #555;
@@ -193,9 +189,9 @@ button:hover {
 /* Media queries for responsive design */
 @media (max-width: 768px) {
     #search-input-home {
-        font-size: 16px; /* Reduce font size for smaller screens */
+        font-size: 16px;
         padding: 12px;
-        padding-right: 35px; /* Adjust padding to the right for smaller screens */
+        padding-right: 35px;
     }
 
     .search-icon-home {
@@ -205,40 +201,113 @@ button:hover {
 
     button {
         padding: 8px 15px;
-        font-size: 14px; /* Reduce button font size for smaller screens */
-    }
-
-    .buttonsSearch button {
-        font-size: 12px; /* Smaller font size */
-        padding: 6px 10px; /* Smaller padding */
-    }
-}
-
-
-@media (max-width: 480px) {
-    h1 {
-        font-size: 18px; /* Reduce heading font size for smaller screens */
-    }
-
-    .headingAndSearch {
-        margin:  0px; /* Add margin for spacing on small screens */
-    }
-
-    button {
-        width: 100%; /* Make buttons take the full width on small screens */
         font-size: 14px;
     }
 
     .buttonsSearch button {
-        font-size: 10px; /* Smallest font size */
-        padding: 5px 8px; /* Smallest padding */
+        font-size: 12px;
+        padding: 6px 10px;
     }
 }
- 
- 
-  
 
- 
-  
+@media (max-width: 480px) {
+    h1 {
+        font-size: 18px;
+    }
 
- 
+    .headingAndSearch {
+        margin: 0px;
+    }
+
+    button {
+        width: 100%;
+        font-size: 14px;
+    }
+
+    .buttonsSearch button {
+        font-size: 10px;
+        padding: 5px 8px;
+    }
+}
+
+/* ===================== ADDED: Search Wrapper & Results ===================== */
+
+.search-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.search-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: white;
+    border: 1px solid #ccc;
+    border-top: none;
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 999;
+    box-sizing: border-box;
+    border-radius: 0 0 5px 5px;
+}
+
+.search-result-item {
+    padding: 12px 16px;
+    cursor: pointer;
+    font-size: 16px;
+    color: #333;
+}
+
+.search-result-item:hover {
+    background-color: #f1f1f1;
+}
+
+.hidden {
+    display: none;
+}
+#results {
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    background-color: white;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    padding: 8px;
+    margin-top: 10px;
+    transition: all 0.2s ease-in-out;
+    z-index: 10;
+    position: absolute;
+    width: 100%;
+  }
+  
+  .result-item {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .result-item:last-child {
+    border-bottom: none;
+  }
+  
+  .result-item i {
+    margin-right: 10px;
+    color: #5c6bc0;
+  }
+  
+  .result-item:hover {
+    background-color: #f1f3f5;
+  }
+  
+  .result-item.empty {
+    color: #999;
+    font-style: italic;
+    text-align: center;
+  }
+  

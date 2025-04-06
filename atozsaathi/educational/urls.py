@@ -8,6 +8,8 @@ urlpatterns = [
       path('contact/', views.contact, name='contact'),
       path('about/', views.about, name='about'),
       path('stream/', views.stream, name='stream'),
+      path('search/', views.search_all, name='search_all'),
+       
       
       
       path('subjects/<int:class_id>/', views.subjects, name='subjects'),
@@ -19,6 +21,8 @@ urlpatterns = [
 
       path('api/chapters/<int:chapter_id>/categories/', views.get_chapter_categories, name='get_chapter_categories'),
       path('api/chapters/<int:chapter_id>/content/<int:category_id>/', views.get_category_content, name='get_category_content'),
+
+      
 
  
  
