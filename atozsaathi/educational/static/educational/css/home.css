@@ -24,7 +24,9 @@ a{
     padding: 0 20px;
     margin: 40px auto 0;
     max-width: 100%;
-    text-align: center;
+    text-align: center; /* Centers the content inside */
+    width: fit-content; /* Keeps the width to fit the content */
+    display: block; /* Changes the display to block for better centering */
 }
 
 .section-heading {
@@ -33,14 +35,20 @@ a{
     margin: 3rem 0 0.5rem;
     color: #1e293b;
     text-align: center;
+    font-size: 2rem; /* Adjust to your font size */
+    margin: 0; /* Remove any default margins */
+    padding-bottom: 5px; /* Add a little space between the text and the underline */
+    display: inline-block; /* Makes sure heading fits content */
+    position: relative;
 }
 
 .section-underline {
-    width: 6rem;
+    width: 100%;
     height: 0.25rem;
     background-color: #10b981;
-    margin: 0 auto 20px;
+    margin: 0 auto 20px; /* This will ensure the underline is centered */
 }
+
 
 .card-container {
     display: grid;
