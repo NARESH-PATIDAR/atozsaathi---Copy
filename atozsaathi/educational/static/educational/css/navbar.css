@@ -37,8 +37,8 @@ body {
 }
 
 .logo-link img {
-    width: 32px;
-    height: 32px;
+    width: 33px;
+    height: 33px;
     margin-right: 10px;
 }
 
@@ -47,6 +47,7 @@ body {
     font-weight: 600;
     color: #fff;
     letter-spacing: 1px;
+    transition: transform 0.3s ease-in-out;
 }
 
 /* Right Section: Search + Links */
