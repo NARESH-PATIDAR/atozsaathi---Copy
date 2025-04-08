@@ -112,6 +112,12 @@ class TitleClass(models.Model):
 class TitleClassSubject(models.Model):
     title_class = models.ForeignKey(TitleClass, on_delete=models.CASCADE, related_name='subjects')
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name='title_class_subjects')
+    image = models.ImageField(
+        upload_to='title_class_subject_images/',
+        default='title_class_subject_images/default.png',
+          
+        blank=True
+    )
 
     class Meta:
         unique_together = ('title_class', 'subject')  # Prevent duplicate combinations

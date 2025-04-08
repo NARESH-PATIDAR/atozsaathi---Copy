@@ -56,6 +56,7 @@ def search_all(request):
         for tcs in title_class_subjects:
             heading = tcs.title_class.title
             class_name = tcs.title_class.class_name
+ 
             results.append({
                 'display': f"{heading.title} > {class_name.name} > {subject.name}",
                 'url': f"/class/{class_name.id}/subject/{subject.id}/"
@@ -63,6 +64,8 @@ def search_all(request):
 
     if results:
         return JsonResponse({'results': results})
+
+
 
     # 4. Search in Chapter
     chapters = Chapter.objects.filter(name__icontains=query)

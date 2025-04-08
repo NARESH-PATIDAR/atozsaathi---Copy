@@ -21,7 +21,11 @@
                 <div class="col-sm-2">
                     <div class="res-box">
                         <a href="{% url 'subject_detail' class_id=class_obj.id subject_id=class_subject.subject.id %}">
-                            <img src="{% static 'educational/images/'|add:class_subject.subject.name|add:'.jpg' %}" alt="{{ class_subject.subject.name }}">
+                            <script>
+                                console.log("{{ class_subject.image.url }}")
+                            </script>
+                            <img src="{{ class_subject.image.url }}" alt="{{ class_subject.subject.name }}">
+ 
                             <p>{{ class_subject.subject.name }}</p>
                         </a>
                     </div>
