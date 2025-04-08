@@ -35,6 +35,8 @@ class CategoryQuestionInline(admin.TabularInline):
 class TitleClassSubChapterCategoryAdmin(admin.ModelAdmin):
     inlines = [CategoryQuestionInline]
 
+
+admin.site.register(ContactMessage)
 admin.site.register(Heading, HeadingAdmin)
 admin.site.register(ClassName)
 admin.site.register(Subject)

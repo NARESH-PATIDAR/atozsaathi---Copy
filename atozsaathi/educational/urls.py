@@ -9,6 +9,7 @@ urlpatterns = [
       path('about/', views.about, name='about'),
       path('stream/', views.stream, name='stream'),
       path('search/', views.search_all, name='search_all'),
+      path('submit_form/', views.submit_form, name='submit_form'),
        
       
       

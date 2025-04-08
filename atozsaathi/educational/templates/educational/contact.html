@@ -1,18 +1,53 @@
-
 {% extends "educational/base.html" %}
 {% load static %}
-
+ 
 {% block title %}Contact Us{% endblock %}
 
 {% block extra_styles %}
     <link rel="stylesheet" href="{% static 'educational/css/contact.css' %}">
 {% endblock %}
+
 {% block navbar %}
     {% include "educational/navbar.html" %}
 {% endblock %}
+
 {% block content %}
 <!-- Contact Us Page -->
+ <style>
+    .alert-container {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin: 10px;
+    }
+    
+    .alert {
+        background-color: #e6ffe6;
+        color: #2e7d32;
+        padding: 15px 25px;
+        border-radius: 8px;
+        border: 1px solid #81c784;
+        font-weight: 500;
+        text-align: center;
+        max-width: 600px;
+        width: 90%;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+ </style>
+
+    <!-- ✅ Success / Info Message -->
+    {% if messages %}
+    <div class="alert-container">
+        {% for message in messages %}
+            <div class="alert">{{ message }}</div>
+        {% endfor %}
+    </div>
+{% endif %}
 <div class="contact-container">
+
+
+
     <!-- Left Section: Contact Information -->
     <section class="contact-info">
         <h2>Contact Information</h2>
@@ -23,14 +58,14 @@
         <p>Facebook: <a href="https://www.facebook.com/atozsaathi">AtoZsaathi</a></p>
         <p>Twitter: <a href="https://twitter.com/atozsaathi">AtoZsaathi</a></p>
         <p>Instagram: <a href="https://www.instagram.com/atozsaathi">AtoZsaathi</a></p>
-       
-
     </section>
 
     <!-- Right Section: Contact Form -->
     <section class="contact-form">
         <h2>Send Us a Message</h2>
-        <form action="/submit_form" method="POST">
+        <form action="{% url 'submit_form' %}" method="POST">
+            {% csrf_token %}
+            
             <label for="name">Name:</label>
             <input type="text" id="name" name="name" required>
 
@@ -54,4 +89,8 @@
         navLinks.classList.toggle('active');
     }
 </script>
+
+<!-- Optional basic styles for the alert -->
+ 
+
 {% endblock %}

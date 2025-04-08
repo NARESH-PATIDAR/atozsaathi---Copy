@@ -1,6 +1,8 @@
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.http import JsonResponse
-from django.db.models import Q
+
+from django.contrib import messages
+from .models import ContactMessage
 
 from .models import Heading, ClassName, Subject, Chapter, ContentCategory, TitleClass, TitleClassSubject, TitleClassSubChapter, TitleClassSubChapterCategory, CategoryQuestion, MCQ, ShortAnswer, DetailedAnswer, TrueOrFalse, FillInTheBlanks, Notes, ChapterContent
 
@@ -201,3 +203,24 @@ def get_category_content(request, chapter_id, category_id):
     print(f"Content data: {content_data}")
 
     return JsonResponse({'content': content_data})
+
+
+def submit_form(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        phone = request.POST.get('phone')
+        message = request.POST.get('message')
+
+        # Save to database
+        ContactMessage.objects.create(
+            name=name,
+            email=email,
+            phone=phone,
+            message=message
+        )
+
+        messages.success(request, 'Your message has been sent and saved. Thank you!')
+        return redirect('contact')  # redirect back to the contact page
+
+    return redirect('contact')
