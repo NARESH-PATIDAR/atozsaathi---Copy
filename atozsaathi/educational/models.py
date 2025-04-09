@@ -1,6 +1,5 @@
 from django.db import models
-from django.urls import reverse
-
+ 
 class Heading(models.Model):
     title = models.CharField(max_length=255)
     underline = models.BooleanField(default=True)
@@ -50,6 +49,8 @@ class MCQ(models.Model):
 
     def __str__(self):
         return self.question
+    
+
 
 class ShortAnswer(models.Model):
     question = models.TextField()

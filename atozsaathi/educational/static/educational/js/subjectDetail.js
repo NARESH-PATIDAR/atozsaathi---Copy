@@ -35,8 +35,8 @@ function loadChapter(chapterId) {
                     const button = document.createElement('button');
                     button.innerText = category.name;
                     button.onclick = () => {
-                        console.log(`Button clicked for category ID: ${category.id}`);
-                        loadCategory(chapterId, category.id, button);
+                        console.log(`Button clicked for category ID: ${category.id}, Category Name: ${category.name}`);
+                        loadCategory(chapterId, category.id, category.name, button);
                     };
                     contentCategories.appendChild(button);
                 });
@@ -52,8 +52,44 @@ function loadChapter(chapterId) {
 }
 
 
-function loadCategory(chapterId, categoryId, button) {
-    console.log(`Loading content for category: ${categoryId} in chapter: ${chapterId}`);
+
+function loadCategory(chapterId, categoryId, categoryName, button) {
+        console.log(`Loading content for category: ${categoryName} (ID: ${categoryId}) in chapter: ${chapterId}`);
+    
+        // If the category is "test", load google.com in an iframe
+        if (categoryName.toLowerCase() === "test") {
+            const contentDisplay = document.getElementById('content-display');
+            contentDisplay.innerHTML = ''; // Clear previous content
+    
+            const iframe = document.createElement('iframe');
+            iframe.src = "/static/educational/testInstruction.html";
+            iframe.width = "100%";
+            iframe.height = "600px";
+            iframe.style.border = "none";
+    
+            contentDisplay.appendChild(iframe);
+
+            fetch(`/api/chapters/${chapterId}/content/${categoryId}/`)
+            .then(response => {
+                if (!response.ok) throw new Error('Network response was not ok');
+                return response.json();
+            })
+            .then(data => {
+                // Store the fetched data in the variable
+                testCategoryData = data.content || [];  // Adjust the property if needed
+
+                // Optionally log the data or use it elsewhere
+                console.log('Fetched test category data:', testCategoryData);
+            })
+            .catch(error => {
+                console.error('Error fetching test content:', error);
+            });
+
+
+
+            return;
+        }
+
     
     fetch(`/api/chapters/${chapterId}/content/${categoryId}/`)
         .then(response => {
@@ -107,6 +143,7 @@ function loadCategory(chapterId, categoryId, button) {
                                 <p class="answer">${tf}</p>
                             `;
                             break;
+
                         case 'fill_in_the_blanks':
                             contentItem.classList.add('fill-blanks');
                             contentItem.innerHTML = `

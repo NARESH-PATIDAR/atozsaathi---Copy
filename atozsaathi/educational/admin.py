@@ -57,3 +57,4 @@ admin.site.register(TitleClassSubject, TitleClassSubjectAdmin)
 admin.site.register(TitleClassSubChapter, TitleClassSubChapterAdmin)
 admin.site.register(TitleClassSubChapterCategory, TitleClassSubChapterCategoryAdmin)
 
+
