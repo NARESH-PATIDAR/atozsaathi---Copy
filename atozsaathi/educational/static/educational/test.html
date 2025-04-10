@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Exam</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(145deg, #f6f9fc, #e9eff3);
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      flex-direction: column;
+      padding-top: 2rem;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 750px;
+      width: 100%;
+      background-color: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      margin-bottom: 3rem;
+      transition: all 0.3s ease;
+    }
+
+    .container:hover {
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    h1, h2 {
+      text-align: center;
+      margin-bottom: 1rem;
+      color: #2c3e50;
+      font-size: 2rem;
+    }
+
+    .question-block {
+      margin-bottom: 1.5rem;
+      background-color: #f9f9f9;
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .question-block:hover {
+      transform: translateY(-5px);
+    }
+
+    .question-block strong {
+      font-size: 1.1rem;
+      display: block;
+      margin-bottom: 0.8rem;
+      color: #34495e;
+    }
+
+    .question-block p {
+      font-size: 1rem;
+      margin: 0.5rem 0;
+    }
+
+    .correct-answer {
+      color: green;
+      font-weight: bold;
+    }
+
+    .user-answer {
+      color: red;
+      font-weight: bold;
+    }
+
+    .answer-input {
+      width: 100%;
+      padding: 0.8rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      margin-top: 1rem;
+    }
+
+    .submit-btn {
+      display: block;
+      width: 100%;
+      padding: 0.7rem;
+      background-color: #3498db;
+      color: white;
+      font-size: 1.1rem;
+      text-align: center;
+      border: none;
+      border-radius: 12px;
+      margin-top: 1.5rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .submit-btn:hover {
+      background-color: #2980b9;
+      transform: scale(1.05);
+    }
+
+    .submit-btn:active {
+      transform: scale(1);
+    }
+
+    /* Responsive design adjustments */
+    @media (max-width: 768px) {
+      .container {
+        padding: 1rem;
+      }
+
+      h1 {
+        font-size: 1.8rem;
+      }
+
+      .submit-btn {
+        font-size: 1rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 1.5rem;
+      }
+
+      .question-block strong {
+        font-size: 1rem;
+      }
+
+      .submit-btn {
+        padding: 0.8rem;
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Exam</h1>
+    <h2>Please answer the following questions</h2>
+
+    <div id="examContent"></div>
+
+    <button id="submitButton" class="submit-btn">Submit Answers</button>
+  </div>
+
+  <script>
+    let examData = JSON.parse(sessionStorage.getItem('testData')) || [];
+
+    const submitButton = document.getElementById('submitButton');
+    const examContent = document.getElementById('examContent');
+
+    function displayExamQuestions() {
+      if (examData.length === 0) {
+        examContent.innerHTML = '<p>No exam data available.</p>';
+        return;
+      }
+
+      const html = examData.map((q, i) => {
+        if (q.type === 'mcq') {
+          return `
+            <div class="question-block">
+              <strong>Q${i + 1}: ${q.question}</strong>
+              <ul>
+                <li><input type="radio" name="q${i}" value="${q.option1}" /> ${q.option1}</li>
+                <li><input type="radio" name="q${i}" value="${q.option2}" /> ${q.option2}</li>
+                <li><input type="radio" name="q${i}" value="${q.option3}" /> ${q.option3}</li>
+                <li><input type="radio" name="q${i}" value="${q.option4}" /> ${q.option4}</li>
+              </ul>
+            </div>
+          `;
+        } else if (q.type === 'short_answer') {
+          return `
+            <div class="question-block">
+              <strong>Q${i + 1}: ${q.question}</strong>
+              <input type="text" class="answer-input" name="q${i}" placeholder="Your answer" />
+            </div>
+          `;
+        } else if (q.type === 'fill_in_the_blanks') {
+          return `
+            <div class="question-block">
+              <strong>Q${i + 1}: ${q.question.replace('______', '__________')}</strong>
+              <input type="text" class="answer-input" name="q${i}" placeholder="Fill in the blank" />
+            </div>
+          `;
+        } else {
+          return `<p>Unsupported question type</p>`;
+        }
+      }).join('');
+
+      examContent.innerHTML = html;
+    }
+
+    function collectAnswers() {
+      const answers = examData.map((q, i) => {
+        const answerElement = document.querySelector(`input[name="q${i}"]:checked`) || document.querySelector(`input[name="q${i}"]`);
+        let userAnswer = answerElement ? answerElement.value.trim() : null;
+        
+        if (userAnswer) {
+          userAnswer = userAnswer.toLowerCase();
+        }
+
+        let isCorrect = false;
+        
+        if (q.type === 'mcq') {
+          isCorrect = userAnswer === (q.correct_option || '').toLowerCase();
+        } else if (q.type === 'short_answer' || q.type === 'fill_in_the_blanks') {
+          isCorrect = userAnswer === (q.answer || '').toLowerCase();
+        }
+
+        return {
+          question: q.question,
+          userAnswer: userAnswer || 'No answer provided',
+          correctAnswer: q.correct_option || q.answer || 'Not available',
+          isCorrect: isCorrect
+        };
+      }).filter(answer => answer !== null);
+
+      const score = answers.filter(a => a.isCorrect).length;
+
+      sessionStorage.setItem('examResults', JSON.stringify({ answers, score, totalMarks: examData.length }));
+
+      window.location.href = 'result.html';
+    }
+
+    submitButton.addEventListener('click', collectAnswers);
+
+    displayExamQuestions();
+  </script>
+</body>
+</html>

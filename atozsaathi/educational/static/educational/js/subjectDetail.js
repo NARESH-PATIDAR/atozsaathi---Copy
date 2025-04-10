@@ -56,39 +56,44 @@ function loadChapter(chapterId) {
 function loadCategory(chapterId, categoryId, categoryName, button) {
         console.log(`Loading content for category: ${categoryName} (ID: ${categoryId}) in chapter: ${chapterId}`);
     
-        // If the category is "test", load google.com in an iframe
         if (categoryName.toLowerCase() === "test") {
             const contentDisplay = document.getElementById('content-display');
             contentDisplay.innerHTML = ''; // Clear previous content
-    
+        
             const iframe = document.createElement('iframe');
             iframe.src = "/static/educational/testInstruction.html";
             iframe.width = "100%";
             iframe.height = "600px";
             iframe.style.border = "none";
-    
+        
             contentDisplay.appendChild(iframe);
-
-            fetch(`/api/chapters/${chapterId}/content/${categoryId}/`)
-            .then(response => {
-                if (!response.ok) throw new Error('Network response was not ok');
-                return response.json();
-            })
-            .then(data => {
-                // Store the fetched data in the variable
-                testCategoryData = data.content || [];  // Adjust the property if needed
-
-                // Optionally log the data or use it elsewhere
-                console.log('Fetched test category data:', testCategoryData);
-            })
-            .catch(error => {
-                console.error('Error fetching test content:', error);
-            });
-
-
-
+        
+            // When iframe is loaded, fetch and send data
+            iframe.onload = function () {
+                fetch(`/api/chapters/${chapterId}/content/${categoryId}/`)
+                    .then(response => {
+                        if (!response.ok) throw new Error('Network response was not ok');
+                        return response.json();
+                    })
+                    .then(data => {
+                        const testCategoryData = data.content || [];
+        
+                        console.log('Fetched test category data:', testCategoryData);
+        
+                        // Send the data into the iframe
+                        iframe.contentWindow.postMessage({
+                            type: 'testData',
+                            payload: testCategoryData
+                        }, '*');
+                    })
+                    .catch(error => {
+                        console.error('Error fetching test content:', error);
+                    });
+            };
+        
             return;
         }
+        
 
     
     fetch(`/api/chapters/${chapterId}/content/${categoryId}/`)
