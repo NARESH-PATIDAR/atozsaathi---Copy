@@ -1,5 +1,7 @@
 from django.urls import path
 from . import views
+from django.conf import settings
+from django.conf.urls.static import static
  
 
 urlpatterns = [
@@ -9,6 +11,7 @@ urlpatterns = [
       path('about/', views.about, name='about'),
       path('stream/', views.stream, name='stream'),
       path('search/', views.search_all, name='search_all'),
+      path('submit_form/', views.submit_form, name='submit_form'),
        
       
       
@@ -26,4 +29,4 @@ urlpatterns = [
 
  
  
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

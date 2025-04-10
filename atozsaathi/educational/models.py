@@ -1,6 +1,5 @@
 from django.db import models
-from django.urls import reverse
-
+ 
 class Heading(models.Model):
     title = models.CharField(max_length=255)
     underline = models.BooleanField(default=True)
@@ -50,6 +49,8 @@ class MCQ(models.Model):
 
     def __str__(self):
         return self.question
+    
+
 
 class ShortAnswer(models.Model):
     question = models.TextField()
@@ -90,6 +91,7 @@ class Notes(models.Model):
 
     def __str__(self):
         return self.title
+    
 
 class ChapterContent(models.Model):
     title = models.CharField(max_length=255)
@@ -112,6 +114,12 @@ class TitleClass(models.Model):
 class TitleClassSubject(models.Model):
     title_class = models.ForeignKey(TitleClass, on_delete=models.CASCADE, related_name='subjects')
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name='title_class_subjects')
+    image = models.ImageField(
+        upload_to='title_class_subject_images/',
+        default='title_class_subject_images/default.png',
+          
+        blank=True
+    )
 
     class Meta:
         unique_together = ('title_class', 'subject')  # Prevent duplicate combinations
@@ -151,3 +159,13 @@ class CategoryQuestion(models.Model):
 
     def __str__(self):
         return f"{self.title_class_sub_chapter_category} - Question"
+
+class ContactMessage(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
+    phone = models.CharField(max_length=20, blank=True)
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Message from {self.name} ({self.email})"

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Exam Instructions</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 600px;
+      background-color: white;
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 1rem;
+      color: #2c3e50;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    ul li {
+      margin-bottom: 1rem;
+      padding-left: 1.5rem;
+      position: relative;
+    }
+
+    ul li::before {
+      content: '✔';
+      position: absolute;
+      left: 0;
+      color: #27ae60;
+    }
+
+    .confirmation {
+      margin-top: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .start-btn {
+      display: block;
+      width: 100%;
+      padding: 1rem;
+      background-color: #3498db;
+      color: white;
+      font-size: 1rem;
+      text-align: center;
+      border: none;
+      border-radius: 8px;
+      margin-top: 2rem;
+      cursor: not-allowed;
+      transition: background-color 0.3s ease;
+      opacity: 0.6;
+    }
+
+    .start-btn.enabled {
+      cursor: pointer;
+      opacity: 1;
+    }
+
+    .start-btn.enabled:hover {
+      background-color: #2980b9;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Exam Instructions</h1>
+    <ul>
+      <li>Ensure a stable internet connection.</li>
+      <li>Do not refresh or close the browser during the exam.</li>
+      <li>Keep your ID ready for verification.</li>
+      <li>No use of external help or devices is allowed.</li>
+      <li>Timer will start once you click the "Start Exam" button.</li>
+    </ul>
+
+    <div class="confirmation">
+      <input type="checkbox" id="agreeCheckbox" />
+      <label for="agreeCheckbox">I have read and understood the instructions.</label>
+    </div>
+
+    <button id="startButton" class="start-btn" disabled>Start Exam</button>
+  </div>
+   
+
+<script>
+    let testDataFromParent = null;
+  
+    // Receive data from parent
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'testData') {
+        testDataFromParent = event.data.payload;
+        console.log('Received test data in iframe:', testDataFromParent);
+      }
+    });
+  
+    const checkbox = document.getElementById('agreeCheckbox');
+    const button = document.getElementById('startButton');
+  
+    checkbox.addEventListener('change', function () {
+      if (this.checked) {
+        button.disabled = false;
+        button.classList.add('enabled');
+      } else {
+        button.disabled = true;
+        button.classList.remove('enabled');
+      }
+    });
+
+ 
+    button.addEventListener('click', function () {
+      if (!checkbox.checked) {
+        alert('Please confirm that you have read the instructions.');
+        return;
+      }
+  
+      // Store test data in sessionStorage before redirecting
+      if (testDataFromParent) {
+        sessionStorage.setItem('testData', JSON.stringify(testDataFromParent));
+      }
+  
+      // Redirect to test.html
+      window.location.href = 'test.html';
+    });
+  </script>
+
+  
+</body>
+</html>
