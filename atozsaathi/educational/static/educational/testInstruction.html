@@ -99,11 +99,22 @@
 
     <button id="startButton" class="start-btn" disabled>Start Exam</button>
   </div>
+   
 
-  <script>
+<script>
+    let testDataFromParent = null;
+  
+    // Receive data from parent
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'testData') {
+        testDataFromParent = event.data.payload;
+        console.log('Received test data in iframe:', testDataFromParent);
+      }
+    });
+  
     const checkbox = document.getElementById('agreeCheckbox');
     const button = document.getElementById('startButton');
-
+  
     checkbox.addEventListener('change', function () {
       if (this.checked) {
         button.disabled = false;
@@ -114,15 +125,23 @@
       }
     });
 
+ 
     button.addEventListener('click', function () {
       if (!checkbox.checked) {
         alert('Please confirm that you have read the instructions.');
-      } else {
-        // Proceed to exam
-        alert('Starting exam...');
-        // You could redirect here: window.location.href = 'exam-page.html';
+        return;
       }
+  
+      // Store test data in sessionStorage before redirecting
+      if (testDataFromParent) {
+        sessionStorage.setItem('testData', JSON.stringify(testDataFromParent));
+      }
+  
+      // Redirect to test.html
+      window.location.href = 'test.html';
     });
   </script>
+
+  
 </body>
 </html>

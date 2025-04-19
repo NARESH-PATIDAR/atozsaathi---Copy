@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Exam Results</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(145deg, #f6f9fc, #e9eff3);
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      flex-direction: column;
+      padding-top: 2rem;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 750px;
+      width: 100%;
+      background-color: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      margin-bottom: 3rem;
+    }
+
+    h1, h2 {
+      text-align: center;
+      margin-bottom: 1rem;
+      color: #2c3e50;
+      font-size: 2rem;
+    }
+
+    .question-block {
+      margin-bottom: 1.5rem;
+      background-color: #f9f9f9;
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .question-block:hover {
+      transform: translateY(-5px);
+    }
+
+    .question-block strong {
+      font-size: 1.1rem;
+      display: block;
+      margin-bottom: 0.8rem;
+      color: #34495e;
+    }
+
+    .question-block p {
+      font-size: 1rem;
+      margin: 0.5rem 0;
+    }
+
+    .correct-answer {
+      color: green;
+      font-weight: bold;
+    }
+
+    .user-answer {
+      color: red;
+      font-weight: bold;
+    }
+
+    .result-btn {
+      display: block;
+      width: 100%;
+      padding: 0.7rem;
+      background-color: #3498db;
+      color: white;
+      font-size: 1.1rem;
+      text-align: center;
+      border: none;
+      border-radius: 12px;
+      margin-top: 1.5rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .result-btn:hover {
+      background-color: #2980b9;
+      transform: scale(1.05);
+    }
+
+    .result-btn:active {
+      transform: scale(1);
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 1rem;
+      }
+
+      h1 {
+        font-size: 1.8rem;
+      }
+
+      .result-btn {
+        font-size: 1rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 1.5rem;
+      }
+
+      .question-block strong {
+        font-size: 1rem;
+      }
+
+      .result-btn {
+        padding: 0.8rem;
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Exam Results</h1>
+    <h2>Your Score: <span id="score"></span> / <span id="totalMarks"></span></h2>
+
+    <div id="resultContent"></div>
+
+    <button class="result-btn" onclick="startTestAgain();">Start Test Again</button>
+  </div>
+
+  <script>
+    const resultData = JSON.parse(sessionStorage.getItem('examResults')) || { answers: [], score: 0, totalMarks: 0 };
+    const resultContent = document.getElementById('resultContent');
+    const scoreElement = document.getElementById('score');
+    const totalMarksElement = document.getElementById('totalMarks');
+
+    scoreElement.textContent = resultData.score;
+    totalMarksElement.textContent = resultData.totalMarks;
+
+    function displayResults() {
+      if (resultData.answers.length === 0) {
+        resultContent.innerHTML = '<p>No results found.</p>';
+        return;
+      }
+
+      const html = resultData.answers.map((a, i) => {
+        return `
+          <div class="question-block">
+            <strong>Q${i + 1}: ${a.question}</strong>
+            <p><span class="correct-answer">Correct Answer: ${a.correctAnswer}</span></p>
+            <p><span class="user-answer">Your Answer: ${a.userAnswer}</span></p>
+            <p>${a.isCorrect ? '<span style="color: green;">Correct</span>' : '<span style="color: red;">Incorrect</span>'}</p>
+          </div>
+        `;
+      }).join('');
+
+      resultContent.innerHTML = html;
+    }
+
+    function startTestAgain() {
+      sessionStorage.removeItem('testData');
+      sessionStorage.removeItem('examResults');
+      window.location.href = 'testInstruction.html';
+    }
+
+    displayResults();
+  </script>
+</body>
+</html>
